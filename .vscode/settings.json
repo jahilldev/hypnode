@@ -3,6 +3,7 @@
    "prettier.requireConfig": true,
    "editor.tabSize": 3,
    "editor.codeActionsOnSave": {
-      "source.fixAll.tslint": true
+      "source.fixAll.tslint": true,
+      "source.fixAll.prettier": true
    }
 }
