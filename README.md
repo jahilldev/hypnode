@@ -2,7 +2,7 @@ A super fast and lightweight (**492bytes**) utility function to build HTML node 
 
 ## Getting Started
 
-To install `hypnode`, you can use of the following in your project:
+To install `hypnode`, you can use one of the following in your project:
 
 `yarn add hypnode` or `npm install hypnode`
 
