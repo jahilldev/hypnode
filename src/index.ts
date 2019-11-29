@@ -14,16 +14,11 @@ interface IAttrs {
  *
  * -------------------------------- */
 
-function h(tag: string, attrs: IAttrs, ...children: any[]): HTMLElement {
+function h(tag: string, attrs?: IAttrs, ...children: any[]): HTMLElement {
    const { document } = window || {};
-
-   if (!document) {
-      throw new Error('Hypnode Error: "window" is undefined');
-   }
-
    const element = document.createElement(tag);
 
-   for (const key of Object.keys(attrs)) {
+   for (const key of Object.keys(attrs || {})) {
       const value = attrs[key];
 
       if (addEventListener(element, key, value)) {
@@ -109,7 +104,7 @@ function addAttributes(element: HTMLElement, key: string, value: string) {
       return;
    }
 
-   if (value === null) {
+   if (!value) {
       return;
    }
 
