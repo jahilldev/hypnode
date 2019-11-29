@@ -1,35 +1,39 @@
 {
-  "name": "hypnode",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "start": "run-p -r \"build --watch\"",
-    "build": "tsc",
-    "test": "jest ./tests"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/jhdevuk/hypnode.git"
-  },
-  "keywords": [
-    "jsx",
-    "dom",
-    "html"
-  ],
-  "author": "James Hill",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/jhdevuk/hypnode/issues"
-  },
-  "homepage": "https://github.com/jhdevuk/hypnode#readme",
-  "devDependencies": {
-    "npm-run-all": "^4.1.5",
-    "prettier": "^1.19.1",
-    "tslint": "^5.20.1",
-    "tslint-config-prettier": "^1.18.0",
-    "tslint-eslint-rules": "^5.4.0",
-    "typescript": "^3.7.2",
-    "typescript-tslint-plugin": "^0.5.5"
-  }
+   "name": "hypnode",
+   "version": "1.0.0",
+   "description": "",
+   "main": "dist/index.js",
+   "types": "dist/index.d.ts",
+   "scripts": {
+      "start": "run-p -r \"build --watch\"",
+      "build": "tsc",
+      "test": "jest ./tests/src"
+   },
+   "repository": {
+      "type": "git",
+      "url": "git+https://github.com/jhdevuk/hypnode.git"
+   },
+   "keywords": [
+      "jsx",
+      "dom",
+      "html"
+   ],
+   "author": "James Hill",
+   "license": "ISC",
+   "bugs": {
+      "url": "https://github.com/jhdevuk/hypnode/issues"
+   },
+   "homepage": "https://github.com/jhdevuk/hypnode#readme",
+   "devDependencies": {
+      "@types/jest": "^24.0.23",
+      "jest": "^24.9.0",
+      "npm-run-all": "^4.1.5",
+      "prettier": "^1.19.1",
+      "ts-jest": "^24.2.0",
+      "tslint": "^5.20.1",
+      "tslint-config-prettier": "^1.18.0",
+      "tslint-eslint-rules": "^5.4.0",
+      "typescript": "^3.7.2",
+      "typescript-tslint-plugin": "^0.5.5"
+   }
 }
