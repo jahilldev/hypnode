@@ -72,7 +72,7 @@ If you need access to a particular node in your built tree, you can use the `ref
 let myElement;
 ...
 h('div', { id: 'container' }, [
-   h('p', { class: 'description', ref: (el) => myElement = el }, 'Lorem ipsum dolor sit amet, consectetur')
+   h('p', { ref: (el) => myElement = el }, 'Lorem ipsum dolor sit amet, consectetur')
 ]);
 ```
 
