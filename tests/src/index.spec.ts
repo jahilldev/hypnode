@@ -43,8 +43,6 @@ describe('Core:HyperText', () => {
       expect(spyCreateElement).toBeCalledTimes(2);
       expect(spyCreateElement).toBeCalledWith('div');
       expect(spyCreateElement).toBeCalledWith('a');
-
-      expect(true).toEqual(true);
    });
 
    it('returns a properly formatted element tree', () => {
@@ -110,15 +108,15 @@ describe('Core:HyperText', () => {
    });
 
    it('builds functional component tress from the tag attribute', () => {
-      const TextHelper = ({ children }: IAttrs) =>
-         h('p', { class: testClass }, children);
+      const TextHelper = ({ className, children }: IAttrs) =>
+         h('p', { class: className }, children);
 
       const sample = `<div class="${testClass}"><p class="${testClass}">${testText}</p></div>`;
 
       const result = h(
          'div',
          { class: testClass },
-         h(TextHelper, { class: testClass }, testText)
+         h(TextHelper, { className: testClass }, testText)
       );
 
       expect(result.outerHTML).toEqual(sample);

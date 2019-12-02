@@ -1,4 +1,4 @@
-A super fast and lightweight (**492bytes**) utility function to build HTML node trees, either directly or from transpiled JSX.
+A super fast and lightweight (**579bytes** gzipped) utility function to build HTML node trees, either directly or from transpiled JSX.
 
 ## Getting Started
 
@@ -18,25 +18,17 @@ Coming soon!
 
 The `h` function can be imported in the following ways:
 
-```
-import { h } from 'hypnode';
-```
+`import { h } from 'hypnode';` or `const { h } = require('hypnode');`
 
-or
+Once imported, use the function to generate your tree of DOM Nodes. The function takes 3 arguments, the last two of which are optional:
 
 ```
-const { h } = require('hypnode');
-```
-
-Once imported, you can use the function to generate a built tree of DOM Nodes. The function takes 3 arguments, the last two of which are optional:
-
-```
-h(type: string, attributes?: object, children?: array[]);
+h([type]: string, [attributes]?: object, [children]?: array[]);
 ```
 
 ## Simple Example
 
-The below code:
+The code below:
 
 ```
 const result = h('div', { title: 'A DIV!' }, [
@@ -58,7 +50,7 @@ Will produce the following:
 
 ## Event Binding
 
-`hypnode` provides a simple set of properties for you to apply events to your built elements, all native DOM events are supported, formatted in camelCase. For example:
+`hypnode` provides a set of properties for you to apply DOM events. All native events are supported, formatted in camelCase and prefixed with `on`. For example:
 
 ```
 h('a', { onClick: (ev) => console.log(ev) }, 'Click Here');
@@ -66,7 +58,7 @@ h('a', { onClick: (ev) => console.log(ev) }, 'Click Here');
 
 ## Element References
 
-If you need access to a particular node in your built tree, you can use the `ref` property, similar to other libraries that use JSX. For example:
+If you need access to a particular node in your tree, use the `ref` property. For example:
 
 ```
 let myElement;
@@ -78,15 +70,15 @@ h('div', { id: 'container' }, [
 
 ## Building Components
 
-`hypnode` can also be used to create re-usable, functional components, below is a simple example:
+`hypnode` can be used to create re-usable, functional components, below is a simple example:
 
 ```
-function Button({ buttonText }) {
-    return h('a', { class: 'button' }, buttonText);
+function Button({ class = '', children }) {
+    return h('a', { class: `button ${class}` }, children);
 }
 ...
 const root = document.getElementById('root');
-const button = Button({ buttonText: 'My Button' });
+const button = h(Button, { class: 'big' }, buttonText);
 
 root.appendChild(button);
 ```
