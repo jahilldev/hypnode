@@ -1,3 +1,5 @@
+import { IAttrs } from '../../src/attributes';
+
 /* -----------------------------------
  *
  * Variables
@@ -46,8 +48,8 @@ describe('Core:HyperText', () => {
    });
 
    it('returns a properly formatted element tree', () => {
-      const sample = `<h1 class="${testClass}">${testText}</h1>`;
-      const result = h('h1', { class: testClass }, testText);
+      const sample = `<h1 class="${testClass}"><p>${testText}</p></h1>`;
+      const result = h('h1', { class: testClass }, h('p', {}, testText));
 
       expect(result.outerHTML).toEqual(sample);
    });
@@ -90,7 +92,34 @@ describe('Core:HyperText', () => {
 
    it('does not apply attributes provided without a value', () => {
       const sample = `<div>${testText}</div>`;
-      const result = h('div', { title: '', id: null, style: false }, testText);
+      const result = h('div', { title: '', id: null }, testText);
+
+      expect(result.outerHTML).toEqual(sample);
+   });
+
+   it('correctly builds a string of CSS properties', () => {
+      const sample = `<div style="text-transform:uppercase;color:#000;">${testText}</div>`;
+
+      const result = h(
+         'div',
+         { style: { textTransform: 'uppercase', color: '#000' } },
+         testText
+      );
+
+      expect(result.outerHTML).toEqual(sample);
+   });
+
+   it('builds functional component tress from the tag attribute', () => {
+      const TextHelper = ({ children }: IAttrs) =>
+         h('p', { class: testClass }, children);
+
+      const sample = `<div class="${testClass}"><p class="${testClass}">${testText}</p></div>`;
+
+      const result = h(
+         'div',
+         { class: testClass },
+         h(TextHelper, { class: testClass }, testText)
+      );
 
       expect(result.outerHTML).toEqual(sample);
    });

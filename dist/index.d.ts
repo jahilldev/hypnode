@@ -1,3 +1,5 @@
 import { IAttrs } from './attributes';
-declare function h(tag: string, attrs?: IAttrs, ...children: any[]): HTMLElement;
-export { h };
+declare type Hypnode = (tag: Tag, attrs?: IAttrs, ...children: any[]) => HTMLElement;
+declare type Tag = string | ((attrs?: IAttrs) => HTMLElement);
+declare function h(tag: Tag, attrs?: IAttrs, ...children: any[]): HTMLElement;
+export { h, Hypnode };

@@ -2,11 +2,15 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 /* -----------------------------------
  *
- * Hypertext
+ * Hypnode
  *
  * -------------------------------- */
 function h(tag, attrs, ...children) {
     const { document } = window || {};
+    children = [].concat.apply([], children);
+    if (tag instanceof Function) {
+        return tag(Object.assign(Object.assign({}, attrs), { children }));
+    }
     const element = document.createElement(tag);
     for (const key of Object.keys(attrs || {})) {
         const value = attrs[key];
@@ -16,13 +20,16 @@ function h(tag, attrs, ...children) {
         if (addElementReference(element, key, value)) {
             continue;
         }
+        if (addStyleProperies(element, key, value)) {
+            continue;
+        }
         addAttributes(element, key, value);
     }
     if (children.length === 0) {
         return element;
     }
     children.forEach(child => {
-        if (child instanceof Node) {
+        if (child instanceof HTMLElement) {
             element.appendChild(child);
             return;
         }
@@ -54,6 +61,24 @@ function addElementReference(element, key, handler) {
         return false;
     }
     handler(element);
+    return true;
+}
+/* -----------------------------------
+ *
+ * Styles
+ *
+ * -------------------------------- */
+function addStyleProperies(element, key, value) {
+    if (key !== 'style') {
+        return false;
+    }
+    const items = Object.keys(value);
+    const result = items.reduce((style, key, index) => {
+        const name = key.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
+        style += `${name}:${value[key]};`;
+        return style;
+    }, '');
+    element.setAttribute('style', result);
     return true;
 }
 /* -----------------------------------

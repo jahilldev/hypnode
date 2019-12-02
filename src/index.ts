@@ -2,12 +2,41 @@ import { IAttrs } from './attributes';
 
 /* -----------------------------------
  *
- * Hypertext
+ * JSX
  *
  * -------------------------------- */
 
-function h(tag: string, attrs?: IAttrs, ...children: any[]): HTMLElement {
+declare namespace JSX {
+   /* tslint:disable:interface-name */
+   interface IntrinsicElements {
+      [element: string]: any;
+   }
+}
+
+/* -----------------------------------
+ *
+ * Types
+ *
+ * -------------------------------- */
+
+type Hypnode = (tag: Tag, attrs?: IAttrs, ...children: any[]) => HTMLElement;
+type Tag = string | ((attrs?: IAttrs) => HTMLElement);
+
+/* -----------------------------------
+ *
+ * Hypnode
+ *
+ * -------------------------------- */
+
+function h(tag: Tag, attrs?: IAttrs, ...children: any[]): HTMLElement {
    const { document } = window || {};
+
+   children = [].concat.apply([], children);
+
+   if (tag instanceof Function) {
+      return tag({ ...attrs, children });
+   }
+
    const element = document.createElement(tag);
 
    for (const key of Object.keys(attrs || {})) {
@@ -21,6 +50,10 @@ function h(tag: string, attrs?: IAttrs, ...children: any[]): HTMLElement {
          continue;
       }
 
+      if (addStyleProperies(element, key, value)) {
+         continue;
+      }
+
       addAttributes(element, key, value);
    }
 
@@ -29,7 +62,7 @@ function h(tag: string, attrs?: IAttrs, ...children: any[]): HTMLElement {
    }
 
    children.forEach(child => {
-      if (child instanceof Node) {
+      if (child instanceof HTMLElement) {
          element.appendChild(child);
 
          return;
@@ -85,6 +118,36 @@ function addElementReference(
 
 /* -----------------------------------
  *
+ * Styles
+ *
+ * -------------------------------- */
+
+function addStyleProperies(
+   element: HTMLElement,
+   key: string,
+   value: { [index: string]: string }
+) {
+   if (key !== 'style') {
+      return false;
+   }
+
+   const items = Object.keys(value);
+
+   const result = items.reduce((style: string, key, index) => {
+      const name = key.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
+
+      style += `${name}:${value[key]};`;
+
+      return style;
+   }, '');
+
+   element.setAttribute('style', result);
+
+   return true;
+}
+
+/* -----------------------------------
+ *
  * Attributes
  *
  * -------------------------------- */
@@ -109,4 +172,4 @@ function addAttributes(element: HTMLElement, key: string, value: string) {
  *
  * -------------------------------- */
 
-export { h };
+export { h, Hypnode };
