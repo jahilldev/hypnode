@@ -10,7 +10,7 @@ declare global {
    namespace JSX {
       /* tslint:disable:interface-name */
       interface IntrinsicElements {
-         [element: string]: any;
+         [element: string]: IAttrs;
       }
    }
 }
