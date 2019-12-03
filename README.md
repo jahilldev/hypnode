@@ -1,4 +1,4 @@
-A super fast and lightweight (**579bytes** gzipped) utility function to build HTML node trees, either directly or from transpiled JSX.
+A super fast and lightweight (**579bytes** gzipped) utility function to build HTML node trees, either directly or from transpiled `JSX`.
 
 # Getting Started
 
@@ -6,7 +6,7 @@ To install `hypnode`, you can use one of the following in your project:
 
 `yarn add hypnode` or `npm install hypnode`
 
-`hypode` can be used in one of two ways, either as a target for JSX transpilation, or directly using the exposed `h` function. It's exported as ES6, so if you need to support older environments, you'll need to add a transpilation stage to ES5 in your build tasks.
+`hypode` can be used in one of two ways, either as a target for `JSX` transpilation, or directly using the exposed `h` function. It's exported as ES6, so if you need to support older environments, you'll need to transpile down to ES5 in your build tasks.
 
 The `h` function can be imported in one of the following ways:
 
@@ -50,7 +50,7 @@ Will produce the following:
 
 # JSX Elements
 
-`hypnode` can be used with JSX to provide a more familiar API when building DOM structures. This will need a transpilation step added, see below for examples.
+`hypnode` can be used with `JSX` to provide a more familiar API when building DOM structures. This will need a transpilation step, see below for examples.
 
 ## TypeScript
 
@@ -64,7 +64,37 @@ Transpilation of `JSX` is provided out of the box by custom factories (TypeScrip
 }
 ```
 
-This tells the TypeScript compiler to convert all JSX elements into function calls, in this case using our exported `h` function. You'll still need to import the `h` function in every file where you're using `JSX`.
+This tells the TypeScript compiler to convert all `JSX` elements into function calls, in this case using our exported `h` function. You'll still need to import the `h` function in every file where you're using `JSX`.
+
+To apply the correct types, all files that contain `JSX` must have the extension `.tsx`.
+
+## Simple Example
+
+The code below:
+
+```
+const root = document.getElementId('root');
+...
+const result = (
+   <div class="wrapper">
+      <a id="link" onClick={(ev) = console.log(ev)}>
+         Click here
+      </a>
+   </div>
+);
+
+root.appendChild(result);
+```
+
+Will produce the following:
+
+```
+<div class="wrapper">
+   <a id="link">
+      Click here
+   </a>
+</div>
+```
 
 # Event Binding
 
@@ -72,6 +102,12 @@ This tells the TypeScript compiler to convert all JSX elements into function cal
 
 ```
 h('a', { onClick: (ev) => console.log(ev) }, 'Click Here');
+```
+
+or, with `JSX`:
+
+```
+<input onKeyUp={(ev) => console.log(ev)} />
 ```
 
 # Element References
@@ -86,19 +122,50 @@ h('div', { id: 'container' }, [
 ]);
 ```
 
+or with `JSX`:
+
+```
+let myElement;
+...
+<div class="wrapper">
+   <a href="//link.co" ref={(el) => myElement = el}>Click here</a>
+</div>
+```
+
 # Components
 
 `hypnode` can be used to create re-usable, functional components, below is a simple example:
 
 ```
-function Button({ class = '', children }) {
-    return h('a', { class: `button ${class}` }, children);
+const root = document.getElementById('root');
+...
+function Button({ className = '', children }) {
+    return h('a', { class: `button ${className}` }, children);
 }
 ...
-const root = document.getElementById('root');
-const button = h(Button, { class: 'big' }, buttonText);
+const button = h(Button, { className: 'big' }, buttonText);
 
 root.appendChild(button);
+```
+
+or with `JSX`:
+
+```
+const root = document.getElementById('root');
+...
+function Button({ className = '', children }) {
+    return (
+       <a class={`button ${className}`}>
+	      {children}
+       </a>
+    );
+}
+...
+root.appendChild(
+   <Button className="big">
+      Click here
+   </Button>
+);
 ```
 
 # TypeScript

@@ -165,6 +165,10 @@ function addAttributes(element: HTMLElement, key: string, value: string) {
       return;
    }
 
+   if (key === 'className') {
+      key = 'class';
+   }
+
    element.setAttribute(key, value);
 }
 

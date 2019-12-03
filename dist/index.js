@@ -94,6 +94,9 @@ function addAttributes(element, key, value) {
     if (!value) {
         return;
     }
+    if (key === 'className') {
+        key = 'class';
+    }
     element.setAttribute(key, value);
 }
 //# sourceMappingURL=index.js.map

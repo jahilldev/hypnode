@@ -5,6 +5,7 @@ interface IAttrs {
     id?: string;
     title?: string;
     class?: string;
+    className?: string;
     style?: {
         [property: string]: string;
     };
