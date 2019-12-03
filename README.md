@@ -10,7 +10,21 @@ To install `hypnode`, you can use one of the following in your project:
 
 # JSX Elements
 
-Coming soon!
+`hypnode` can be used with JSX to provide a more familiar API when building DOM structures. This will need a transpilation step added, see below for examples.
+
+## TypeScript
+
+Transpilation of `JSX` is provided out of the box by custom factories (TypeScript 1.8+), to apply this, add the following to your `tsconfig.json` file:
+
+```
+"compilerOptions": {
+   "jsx": "react",
+   "jsxFactory": "h",
+   ...
+}
+```
+
+This tells the TypeScript compiler to convert all JSX elements into function calls, in this case using our exported `h` function. You'll still need to import the `h` function in every file where you're using `JSX`.
 
 # Direct Usage
 
@@ -21,7 +35,7 @@ The `h` function can be imported in the following ways:
 Once imported, use the function to generate your tree of DOM Nodes. The function takes 3 arguments, the last two of which are optional:
 
 ```
-h([type]: string, [attributes]?: object, [children]?: array[]);
+h([type]: string | Function, [attributes]?: object, [children]?: array[]);
 ```
 
 ## Simple Example
