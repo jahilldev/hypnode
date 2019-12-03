@@ -1,20 +1,18 @@
 A super fast and lightweight (**579bytes** gzipped) utility function to build HTML node trees, either directly or from transpiled JSX.
 
-## Getting Started
+# Getting Started
 
 To install `hypnode`, you can use one of the following in your project:
 
 `yarn add hypnode` or `npm install hypnode`
 
-## Usage
-
 `hypode` can be used in one of two ways, either as a target for JSX transpilation, or directly using the exposed `h` function. It's exported as ES6, so if you need to support older environments there will need to be a transpilation stage to ES5 in your build tasks.
 
-### JSX Elements
+# JSX Elements
 
 Coming soon!
 
-### Direct Usage
+# Direct Usage
 
 The `h` function can be imported in the following ways:
 
@@ -48,7 +46,7 @@ Will produce the following:
 </div>
 ```
 
-## Event Binding
+# Event Binding
 
 `hypnode` provides a set of properties for you to apply DOM events. All native events are supported, formatted in camelCase and prefixed with `on`. For example:
 
@@ -56,7 +54,7 @@ Will produce the following:
 h('a', { onClick: (ev) => console.log(ev) }, 'Click Here');
 ```
 
-## Element References
+# Element References
 
 If you need access to a particular node in your tree, use the `ref` property. For example:
 
@@ -68,7 +66,7 @@ h('div', { id: 'container' }, [
 ]);
 ```
 
-## Building Components
+# Components
 
 `hypnode` can be used to create re-usable, functional components, below is a simple example:
 
@@ -83,6 +81,6 @@ const button = h(Button, { class: 'big' }, buttonText);
 root.appendChild(button);
 ```
 
-## TypeScript
+# TypeScript
 
 This utility was created with TypeScript and comes pre-bundled with a definition file.

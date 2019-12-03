@@ -6,10 +6,12 @@ import { IAttrs } from './attributes';
  *
  * -------------------------------- */
 
-declare namespace JSX {
-   /* tslint:disable:interface-name */
-   interface IntrinsicElements {
-      [element: string]: any;
+declare global {
+   namespace JSX {
+      /* tslint:disable:interface-name */
+      interface IntrinsicElements {
+         [element: string]: any;
+      }
    }
 }
 

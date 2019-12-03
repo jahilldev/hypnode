@@ -30,11 +30,11 @@ import { h } from '../../src/index';
 
 /* -----------------------------------
  *
- * Hypertext
+ * Hypnode
  *
  * -------------------------------- */
 
-describe('Core:HyperText', () => {
+describe('Core:Hypnode', () => {
    beforeEach(() => jest.clearAllMocks());
 
    it('creates elements in tree based on "tag" argument', () => {
