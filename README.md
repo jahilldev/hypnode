@@ -6,31 +6,19 @@ To install `hypnode`, you can use one of the following in your project:
 
 `yarn add hypnode` or `npm install hypnode`
 
-`hypode` can be used in one of two ways, either as a target for JSX transpilation, or directly using the exposed `h` function. It's exported as ES6, so if you need to support older environments there will need to be a transpilation stage to ES5 in your build tasks.
+`hypode` can be used in one of two ways, either as a target for JSX transpilation, or directly using the exposed `h` function. It's exported as ES6, so if you need to support older environments, you'll need to add a transpilation stage to ES5 in your build tasks.
 
-# JSX Elements
-
-`hypnode` can be used with JSX to provide a more familiar API when building DOM structures. This will need a transpilation step added, see below for examples.
-
-## TypeScript
-
-Transpilation of `JSX` is provided out of the box by custom factories (TypeScript 1.8+), to apply this, add the following to your `tsconfig.json` file:
+The `h` function can be imported in one of the following ways:
 
 ```
-"compilerOptions": {
-   "jsx": "react",
-   "jsxFactory": "h",
-   ...
-}
+import { h } from 'hypnode';
 ```
 
-This tells the TypeScript compiler to convert all JSX elements into function calls, in this case using our exported `h` function. You'll still need to import the `h` function in every file where you're using `JSX`.
+```
+const { h } = require('hypnode');
+```
 
 # Direct Usage
-
-The `h` function can be imported in the following ways:
-
-`import { h } from 'hypnode';` or `const { h } = require('hypnode');`
 
 Once imported, use the function to generate your tree of DOM Nodes. The function takes 3 arguments, the last two of which are optional:
 
@@ -59,6 +47,24 @@ Will produce the following:
    <p id="text">My text value</p>
 </div>
 ```
+
+# JSX Elements
+
+`hypnode` can be used with JSX to provide a more familiar API when building DOM structures. This will need a transpilation step added, see below for examples.
+
+## TypeScript
+
+Transpilation of `JSX` is provided out of the box by custom factories (TypeScript 1.8+), to apply this, add the following to your `tsconfig.json` file:
+
+```
+"compilerOptions": {
+   "jsx": "react",
+   "jsxFactory": "h",
+   ...
+}
+```
+
+This tells the TypeScript compiler to convert all JSX elements into function calls, in this case using our exported `h` function. You'll still need to import the `h` function in every file where you're using `JSX`.
 
 # Event Binding
 
