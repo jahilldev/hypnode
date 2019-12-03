@@ -2,7 +2,7 @@ import { IAttrs } from './attributes';
 declare global {
     namespace JSX {
         interface IntrinsicElements {
-            [element: string]: any;
+            [element: string]: IAttrs;
         }
     }
 }
