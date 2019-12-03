@@ -1,5 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const useState_1 = require("./useState");
+exports.useState = useState_1.useState;
 /* -----------------------------------
  *
  * Hypnode
@@ -7,11 +9,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
  * -------------------------------- */
 function h(tag, attrs, ...children) {
     const { document } = window || {};
+    let element;
     children = [].concat.apply([], children);
     if (tag instanceof Function) {
-        return tag(Object.assign(Object.assign({}, attrs), { children }));
+        element = tag(Object.assign(Object.assign({}, attrs), { children }));
+        useState_1.setIndex(tag, Object.assign(Object.assign({}, attrs), { children }), element);
+        return element;
     }
-    const element = document.createElement(tag);
+    element = document.createElement(tag);
     for (const key of Object.keys(attrs || {})) {
         const value = attrs[key];
         if (addEventListener(element, key, value)) {

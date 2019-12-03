@@ -1,4 +1,5 @@
 import { IAttrs } from './attributes';
+import { useState, setIndex } from './useState';
 
 /* -----------------------------------
  *
@@ -33,13 +34,19 @@ type Tag = string | ((attrs?: IAttrs) => HTMLElement);
 function h(tag: Tag, attrs?: IAttrs, ...children: any[]): HTMLElement {
    const { document } = window || {};
 
+   let element: HTMLElement;
+
    children = [].concat.apply([], children);
 
    if (tag instanceof Function) {
-      return tag({ ...attrs, children });
+      element = tag({ ...attrs, children });
+
+      setIndex(tag, { ...attrs, children }, element);
+
+      return element;
    }
 
-   const element = document.createElement(tag);
+   element = document.createElement(tag);
 
    for (const key of Object.keys(attrs || {})) {
       const value = attrs[key];
@@ -178,4 +185,4 @@ function addAttributes(element: HTMLElement, key: string, value: string) {
  *
  * -------------------------------- */
 
-export { h, Hypnode };
+export { h, useState, Hypnode };
