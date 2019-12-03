@@ -8,17 +8,20 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const context = {};
 let callIndex = -1;
 let callState = null;
+let callRender = null;
 /* -----------------------------------
  *
  * Use
  *
  * -------------------------------- */
 function useState(initial) {
-    const index = (callIndex += 1);
+    let index = (callIndex += 1);
+    let state = initial;
+    if (callRender !== null) {
+        index = callRender;
+        state = context[index].state;
+    }
     callState = initial;
-    const { state } = (context[index] = {
-        state: initial,
-    });
     return [state, setValue(index)];
 }
 exports.useState = useState;
@@ -29,7 +32,7 @@ exports.useState = useState;
  * -------------------------------- */
 function setIndex(tag, attrs, node) {
     const state = callState;
-    if (state === null) {
+    if (state === null || callRender !== null) {
         return;
     }
     context[callIndex] = {
@@ -49,7 +52,7 @@ exports.setIndex = setIndex;
 function setValue(index) {
     return (value) => {
         context[index].state = value;
-        reRender(context[index]);
+        reRender(index);
     };
 }
 /* -----------------------------------
@@ -57,7 +60,12 @@ function setValue(index) {
  * Render
  *
  * -------------------------------- */
-function reRender(reference) {
-    console.log('reRender', reference);
+function reRender(index) {
+    const { tag, attrs, node } = context[index];
+    callRender = index;
+    const result = tag(attrs);
+    callRender = null;
+    node.parentNode.replaceChild(result, node);
+    context[index].node = result;
 }
 //# sourceMappingURL=useState.js.map
