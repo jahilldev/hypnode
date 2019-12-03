@@ -1,4 +1,4 @@
-A super fast and lightweight (**579bytes** gzipped) utility function to build HTML node trees, either directly or from transpiled `JSX`.
+A super fast and lightweight (**887bytes** gzipped) utility function to build HTML node trees, and stateful functional components. Can be used either directly via the `h` function, or from transpiled `JSX`.
 
 # Getting Started
 
@@ -167,6 +167,34 @@ root.appendChild(
    </Button>
 );
 ```
+
+# State
+
+`hypnode` exposes a simple, declarative hook to provide state into your functional application.
+
+First, you'll need to import the hook function:
+
+```
+import { h, useState } from 'hypnode';
+```
+
+Once imported, you can initialize a state registry in your components by doing the following:
+
+```
+const [state, setState] = useState([value]: any);
+```
+
+The `useState` function takes a single argument, the initial value you wish to assign to the state. This can be anything, a primitive or something more complex like an object. For example:
+
+```
+function Button({ buttonText }) {
+   const [state, setState] = useState(10);
+
+   return h('button', { onClick: () => setState(state + 1) }, `${buttonText}: ${state}`);
+}
+```
+
+You provide mutations to your state via the `setState` function, this accepts a _new_ value you wish to assign. Whenever this function is called, the component will be re-rendered.
 
 # TypeScript
 
