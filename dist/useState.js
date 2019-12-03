@@ -14,41 +14,50 @@ let callState = null;
  *
  * -------------------------------- */
 function useState(initial) {
-    callIndex += 1;
+    const index = (callIndex += 1);
     callState = initial;
-    const { state } = (context[callIndex] = {
+    const { state } = (context[index] = {
         state: initial,
     });
-    return [state, setValue(callIndex)];
+    return [state, setValue(index)];
 }
 exports.useState = useState;
-/* -----------------------------------
- *
- * Set
- *
- * -------------------------------- */
-function setValue(index) {
-    const reference = context[index];
-    return (value) => {
-        reference.state = value;
-    };
-}
 /* -----------------------------------
  *
  * Index
  *
  * -------------------------------- */
 function setIndex(tag, attrs, node) {
-    if (!callState) {
+    const state = callState;
+    if (state === null) {
         return;
     }
     context[callIndex] = {
         tag,
         attrs,
         node,
-        state: callState,
+        state,
     };
     callState = null;
 }
 exports.setIndex = setIndex;
+/* -----------------------------------
+ *
+ * Set
+ *
+ * -------------------------------- */
+function setValue(index) {
+    return (value) => {
+        context[index].state = value;
+        reRender(context[index]);
+    };
+}
+/* -----------------------------------
+ *
+ * Render
+ *
+ * -------------------------------- */
+function reRender(reference) {
+    console.log('reRender', reference);
+}
 //# sourceMappingURL=useState.js.map

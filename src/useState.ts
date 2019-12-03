@@ -40,28 +40,15 @@ let callState: any = null;
  * -------------------------------- */
 
 function useState(initial: any) {
-   callIndex += 1;
+   const index = (callIndex += 1);
+
    callState = initial;
 
-   const { state } = (context[callIndex] = {
+   const { state } = (context[index] = {
       state: initial,
    });
 
-   return [state, setValue(callIndex)];
-}
-
-/* -----------------------------------
- *
- * Set
- *
- * -------------------------------- */
-
-function setValue(index: number) {
-   const reference = context[index];
-
-   return (value: any) => {
-      reference.state = value;
-   };
+   return [state, setValue(index)];
 }
 
 /* -----------------------------------
@@ -71,7 +58,9 @@ function setValue(index: number) {
  * -------------------------------- */
 
 function setIndex(tag: Component, attrs: IAttrs, node: HTMLElement) {
-   if (!callState) {
+   const state = callState;
+
+   if (state === null) {
       return;
    }
 
@@ -79,10 +68,34 @@ function setIndex(tag: Component, attrs: IAttrs, node: HTMLElement) {
       tag,
       attrs,
       node,
-      state: callState,
+      state,
    };
 
    callState = null;
+}
+
+/* -----------------------------------
+ *
+ * Set
+ *
+ * -------------------------------- */
+
+function setValue(index: number) {
+   return (value: any) => {
+      context[index].state = value;
+
+      reRender(context[index]);
+   };
+}
+
+/* -----------------------------------
+ *
+ * Render
+ *
+ * -------------------------------- */
+
+function reRender(reference: IContext) {
+   console.log('reRender', reference);
 }
 
 /* -----------------------------------
