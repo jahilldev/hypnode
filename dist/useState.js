@@ -65,7 +65,7 @@ function reRender(index) {
     callRender = index;
     const result = tag(attrs);
     callRender = null;
-    node.parentNode.replaceChild(result, node);
+    setTimeout(() => node.parentNode.replaceChild(result, node), 0);
     context[index].node = result;
 }
 //# sourceMappingURL=useState.js.map

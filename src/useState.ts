@@ -31,7 +31,7 @@ interface IContext {
 
 const context: IContext = {};
 let callIndex = -1;
-let callState: object = null;
+let callState: any = null;
 let callRender: number = null;
 
 /* -----------------------------------
@@ -106,7 +106,7 @@ function reRender(index: number) {
 
    callRender = null;
 
-   node.parentNode.replaceChild(result, node);
+   setTimeout(() => node.parentNode.replaceChild(result, node), 0);
 
    context[index].node = result;
 }
