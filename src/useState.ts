@@ -58,11 +58,11 @@ function useState(initial: any) {
  * -------------------------------- */
 
 function setIndex(tag: Component, attrs: IAttrs) {
-   const index = (callIndex += 1);
-
    if (callRender !== null) {
-      return;
+      return callRender;
    }
+
+   const index = (callIndex += 1);
 
    context[index] = {
       tag,
@@ -81,10 +81,6 @@ function setIndex(tag: Component, attrs: IAttrs) {
  * -------------------------------- */
 
 function setElement(node: HTMLElement, index: number) {
-   if (callRender !== null) {
-      return;
-   }
-
    context[index].node = node;
 
    return node;

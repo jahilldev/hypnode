@@ -1,4 +1,4 @@
-A super fast and lightweight (**887bytes** gzipped) utility function to build HTML node trees, and stateful functional components. Can be used either directly via the `h` function, or from transpiled `JSX`.
+A super fast and lightweight (**904bytes** gzipped) utility function to build HTML node trees, and stateful functional components. Can be used either directly via the `h` function, or from transpiled `JSX`.
 
 # Getting Started
 

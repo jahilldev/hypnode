@@ -29,10 +29,10 @@ exports.useState = useState;
  *
  * -------------------------------- */
 function setIndex(tag, attrs) {
-    const index = (callIndex += 1);
     if (callRender !== null) {
-        return;
+        return callRender;
     }
+    const index = (callIndex += 1);
     context[index] = {
         tag,
         attrs,
@@ -48,9 +48,6 @@ exports.setIndex = setIndex;
  *
  * -------------------------------- */
 function setElement(node, index) {
-    if (callRender !== null) {
-        return;
-    }
     context[index].node = node;
     return node;
 }
