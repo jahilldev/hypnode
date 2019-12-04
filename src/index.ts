@@ -48,23 +48,7 @@ function h(tag: Tag, attrs?: IAttrs, ...children: any[]): HTMLElement {
 
    element = document.createElement(tag);
 
-   for (const key of Object.keys(attrs || {})) {
-      const value = attrs[key];
-
-      if (addEventListener(element, key, value)) {
-         continue;
-      }
-
-      if (addElementReference(element, key, value)) {
-         continue;
-      }
-
-      if (addStyleProperies(element, key, value)) {
-         continue;
-      }
-
-      addAttributes(element, key, value);
-   }
+   applyNodeProperties(element, attrs);
 
    if (children.length === 0) {
       return element;
@@ -81,6 +65,34 @@ function h(tag: Tag, attrs?: IAttrs, ...children: any[]): HTMLElement {
    });
 
    return element;
+}
+
+/* -----------------------------------
+ *
+ * Properties
+ *
+ * -------------------------------- */
+
+function applyNodeProperties(element: HTMLElement, attrs?: IAttrs) {
+   const keys = Object.keys(attrs || {});
+
+   for (const key of keys) {
+      const value = attrs[key];
+
+      if (addEventListener(element, key, value)) {
+         continue;
+      }
+
+      if (addElementReference(element, key, value)) {
+         continue;
+      }
+
+      if (addStyleProperies(element, key, value)) {
+         continue;
+      }
+
+      addAttributes(element, key, value);
+   }
 }
 
 /* -----------------------------------
