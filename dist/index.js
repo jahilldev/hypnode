@@ -12,9 +12,9 @@ function h(tag, attrs, ...children) {
     let element;
     children = [].concat.apply([], children);
     if (tag instanceof Function) {
+        const index = useState_1.setIndex(tag, Object.assign(Object.assign({}, attrs), { children }));
         element = tag(Object.assign(Object.assign({}, attrs), { children }));
-        useState_1.setIndex(tag, Object.assign(Object.assign({}, attrs), { children }), element);
-        return element;
+        return useState_1.setElement(element, index);
     }
     element = document.createElement(tag);
     for (const key of Object.keys(attrs || {})) {

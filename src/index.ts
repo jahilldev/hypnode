@@ -1,5 +1,5 @@
 import { IAttrs } from './attributes';
-import { useState, setIndex } from './useState';
+import { useState, setElement, setIndex } from './useState';
 
 /* -----------------------------------
  *
@@ -39,11 +39,11 @@ function h(tag: Tag, attrs?: IAttrs, ...children: any[]): HTMLElement {
    children = [].concat.apply([], children);
 
    if (tag instanceof Function) {
+      const index = setIndex(tag, { ...attrs, children });
+
       element = tag({ ...attrs, children });
 
-      setIndex(tag, { ...attrs, children }, element);
-
-      return element;
+      return setElement(element, index);
    }
 
    element = document.createElement(tag);

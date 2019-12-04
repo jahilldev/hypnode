@@ -31,7 +31,6 @@ interface IContext {
 
 const context: IContext = {};
 let callIndex = -1;
-let callState: any = null;
 let callRender: number = null;
 
 /* -----------------------------------
@@ -41,15 +40,13 @@ let callRender: number = null;
  * -------------------------------- */
 
 function useState(initial: any) {
-   let index = (callIndex += 1);
+   let index = callIndex;
    let state = initial;
 
    if (callRender !== null) {
       index = callRender;
       state = context[index].state;
    }
-
-   callState = initial;
 
    return [state, setValue(index)];
 }
@@ -60,21 +57,37 @@ function useState(initial: any) {
  *
  * -------------------------------- */
 
-function setIndex(tag: Component, attrs: IAttrs, node: HTMLElement) {
-   const state = callState;
+function setIndex(tag: Component, attrs: IAttrs) {
+   const index = (callIndex += 1);
 
-   if (state === null || callRender !== null) {
+   if (callRender !== null) {
       return;
    }
 
-   context[callIndex] = {
+   context[index] = {
       tag,
       attrs,
-      node,
-      state,
+      node: null,
+      state: null,
    };
 
-   callState = null;
+   return index;
+}
+
+/* -----------------------------------
+ *
+ * Element
+ *
+ * -------------------------------- */
+
+function setElement(node: HTMLElement, index: number) {
+   if (callRender !== null) {
+      return;
+   }
+
+   context[index].node = node;
+
+   return node;
 }
 
 /* -----------------------------------
@@ -117,4 +130,4 @@ function reRender(index: number) {
  *
  * -------------------------------- */
 
-export { useState, setIndex };
+export { useState, setIndex, setElement };

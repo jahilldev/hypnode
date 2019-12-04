@@ -7,7 +7,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
  * -------------------------------- */
 const context = {};
 let callIndex = -1;
-let callState = null;
 let callRender = null;
 /* -----------------------------------
  *
@@ -15,13 +14,12 @@ let callRender = null;
  *
  * -------------------------------- */
 function useState(initial) {
-    let index = (callIndex += 1);
+    let index = callIndex;
     let state = initial;
     if (callRender !== null) {
         index = callRender;
         state = context[index].state;
     }
-    callState = initial;
     return [state, setValue(index)];
 }
 exports.useState = useState;
@@ -30,20 +28,33 @@ exports.useState = useState;
  * Index
  *
  * -------------------------------- */
-function setIndex(tag, attrs, node) {
-    const state = callState;
-    if (state === null || callRender !== null) {
+function setIndex(tag, attrs) {
+    const index = (callIndex += 1);
+    if (callRender !== null) {
         return;
     }
-    context[callIndex] = {
+    context[index] = {
         tag,
         attrs,
-        node,
-        state,
+        node: null,
+        state: null,
     };
-    callState = null;
+    return index;
 }
 exports.setIndex = setIndex;
+/* -----------------------------------
+ *
+ * Element
+ *
+ * -------------------------------- */
+function setElement(node, index) {
+    if (callRender !== null) {
+        return;
+    }
+    context[index].node = node;
+    return node;
+}
+exports.setElement = setElement;
 /* -----------------------------------
  *
  * Set

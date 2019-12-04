@@ -1,6 +1,6 @@
 {
    "name": "hypnode",
-   "version": "1.0.7",
+   "version": "1.0.8",
    "description": "",
    "main": "dist/index.js",
    "types": "dist/index.d.ts",
@@ -17,6 +17,9 @@
       "jsx",
       "dom",
       "html"
+   ],
+   "files": [
+      "dist"
    ],
    "author": "James Hill",
    "license": "ISC",
