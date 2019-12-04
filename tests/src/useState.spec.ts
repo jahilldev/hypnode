@@ -6,9 +6,7 @@ import { IAttrs } from '../../src/attributes';
  *
  * -------------------------------- */
 
-const testClass = 'testClass';
-const testLink = '//hypno.de';
-const testText = 'testText';
+const testValue = 0;
 
 /* -----------------------------------
  *
@@ -25,21 +23,31 @@ import { h, useState } from '../../src/index';
  * -------------------------------- */
 
 describe('Core:useState', () => {
-   function TestComponent({ index }: any) {
-      const [value, setNumber] = useState(0);
-
-      setNumber(1);
-
-      return h('div', {}, testText);
-   }
+   beforeEach(() => jest.clearAllMocks());
 
    it('correctly renders component from "useState" function', () => {
-      const result = h(
-         TestComponent,
-         { index: 'one' },
-         h(TestComponent, { index: 'two' })
-      );
+      const sample = `<a>${testValue + 1}</a>`;
+      const result = h(Component, { state: testValue });
+      const root = h('div', {}, result);
 
-      expect(true).toEqual(true);
+      root.appendChild(result);
+
+      const event = new Event('click');
+
+      result.dispatchEvent(event);
+
+      setTimeout(() => expect(root.innerHTML).toEqual(sample), 0);
    });
 });
+
+/* -----------------------------------
+ *
+ * Component
+ *
+ * -------------------------------- */
+
+function Component({ state }: IAttrs) {
+   const [value, setNumber] = useState(state);
+
+   return h('a', { onClick: () => setNumber(value + 1) }, value);
+}
