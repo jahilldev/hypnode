@@ -33,7 +33,7 @@ type Tag = string | ((attrs?: IAttrs) => HTMLElement);
  * -------------------------------- */
 
 function h(tag: Tag, attrs?: IAttrs, ...children: any[]): HTMLElement {
-   const { document } = window || {};
+   const { document = null } = typeof window !== 'undefined' ? window : {};
 
    children = [].concat.apply([], children);
 
