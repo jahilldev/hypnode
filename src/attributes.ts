@@ -9,6 +9,7 @@ import { Hypnode } from './index';
 interface IAttrs {
    [index: string]: any;
    children?: string | Hypnode[];
+   ref?: (el: HTMLElement) => void;
    id?: string;
    title?: string;
    class?: string;

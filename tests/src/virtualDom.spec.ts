@@ -1,4 +1,5 @@
 import { IAttrs } from '../../src/attributes';
+import { IVNode } from '../../src/virtualDom';
 
 /* -----------------------------------
  *
@@ -54,6 +55,22 @@ describe('Core:virtualDom', () => {
             h(Component, { id: item }, `${testValue} ${item}`)
          )
       );
+
+      expect(result).toEqual(sample);
+   });
+
+   it('filters non HTML attributes from virtual nodes', () => {
+      const sample: IVNode = {
+         nodeName: 'div',
+         attrs: { title: testTitle },
+         children: [],
+      };
+
+      const result = h('div', {
+         title: testTitle,
+         onClick: ev => console.log(ev),
+         ref: (el: HTMLElement) => console.log(el),
+      });
 
       expect(result).toEqual(sample);
    });
