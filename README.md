@@ -1,4 +1,4 @@
-A super fast and lightweight (**904bytes** gzipped) utility function to build HTML node trees, and stateful functional components. Can be used either directly via the `h` function, or from transpiled `JSX`.
+A super fast and lightweight (**971bytes** gzipped) utility function to build HTML node trees, and stateful functional components. Can be used either directly via the `h` function, or from transpiled `JSX`.
 
 # Getting Started
 
@@ -195,6 +195,10 @@ function Button({ buttonText }) {
 ```
 
 You provide mutations to your state via the `setState` function, this accepts a _new_ value you wish to assign. Whenever this function is called, the component will be re-rendered.
+
+# SSR
+
+`hypnode` provides a fallback Virtual `DOM` representation for server side rendering (universal rendering). You can use this output to generate a complete `HTML` representation of your app. This output depends on a `window.document` reference being defined, if it is, `hypnode` will return a standard `HTMLElement`. A prebuilt utility to provide this will be coming soon.
 
 # TypeScript
 
