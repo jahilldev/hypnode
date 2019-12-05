@@ -56,7 +56,7 @@ function h(tag: Tag, attrs?: IAttrs, ...children: any[]): HTMLElement {
       return element;
    }
 
-   children.forEach((child: HTMLElement) => {
+   children.forEach(child => {
       if (child instanceof HTMLElement) {
          element.appendChild(child);
 
