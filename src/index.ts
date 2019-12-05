@@ -1,5 +1,6 @@
 import { IAttrs } from './attributes';
 import { useState, setElement, setIndex } from './useState';
+import { virtualDom } from './virtualDom';
 
 /* -----------------------------------
  *
@@ -34,19 +35,20 @@ type Tag = string | ((attrs?: IAttrs) => HTMLElement);
 function h(tag: Tag, attrs?: IAttrs, ...children: any[]): HTMLElement {
    const { document } = window || {};
 
-   let element: HTMLElement;
-
    children = [].concat.apply([], children);
 
    if (tag instanceof Function) {
-      const index = setIndex(tag, { ...attrs, children });
+      const props = { ...attrs, children };
+      const index = setIndex(tag, props);
 
-      element = tag({ ...attrs, children });
-
-      return setElement(element, index);
+      return setElement(tag(props), index);
    }
 
-   element = document.createElement(tag);
+   if (!document) {
+      return virtualDom(tag, attrs, children);
+   }
+
+   const element = document.createElement(tag);
 
    applyNodeProperties(element, attrs);
 
@@ -54,7 +56,7 @@ function h(tag: Tag, attrs?: IAttrs, ...children: any[]): HTMLElement {
       return element;
    }
 
-   children.forEach(child => {
+   children.forEach((child: HTMLElement) => {
       if (child instanceof HTMLElement) {
          element.appendChild(child);
 
@@ -197,4 +199,4 @@ function addAttributes(element: HTMLElement, key: string, value: string) {
  *
  * -------------------------------- */
 
-export { h, useState, Hypnode };
+export { h, useState, Hypnode, Tag };

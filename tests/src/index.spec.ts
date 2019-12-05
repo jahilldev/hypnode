@@ -88,6 +88,13 @@ describe('Core:Hypnode', () => {
       expect(result.outerHTML).toEqual(sample);
    });
 
+   it('converts the "className" attribute to "class" when provided', () => {
+      const sample = `<a class="${testClass}"></a>`;
+      const result = h('a', { className: testClass });
+
+      expect(result.outerHTML).toEqual(sample);
+   });
+
    it('does not apply attributes provided without a value', () => {
       const sample = `<div>${testText}</div>`;
       const result = h('div', { title: '', id: null }, testText);

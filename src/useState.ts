@@ -83,7 +83,7 @@ function setIndex(tag: Component, attrs: IAttrs) {
 function setElement(node: HTMLElement, index: number) {
    context[index].node = node;
 
-   return node;
+   return node as HTMLElement;
 }
 
 /* -----------------------------------
@@ -115,7 +115,9 @@ function reRender(index: number) {
 
    callRender = null;
 
-   setTimeout(() => node.parentNode.replaceChild(result, node), 0);
+   if (node instanceof HTMLElement) {
+      setTimeout(() => node.parentNode.replaceChild(result, node), 0);
+   }
 
    context[index].node = result;
 }
