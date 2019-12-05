@@ -3,6 +3,18 @@ import { Tag } from './index';
 
 /* -----------------------------------
  *
+ * IVNode
+ *
+ * -------------------------------- */
+
+interface IVNode {
+   nodeName: Tag;
+   attrs: IAttrs;
+   children: any[];
+}
+
+/* -----------------------------------
+ *
  * Virtual
  *
  * -------------------------------- */
@@ -21,4 +33,4 @@ function virtualDom(tag: Tag, attrs: IAttrs, children: any[]): any {
  *
  * -------------------------------- */
 
-export { virtualDom };
+export { IVNode, virtualDom };

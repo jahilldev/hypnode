@@ -1,6 +1,6 @@
 import { IAttrs } from './attributes';
 import { useState, setElement, setIndex } from './useState';
-import { virtualDom } from './virtualDom';
+import { IVNode, virtualDom } from './virtualDom';
 
 /* -----------------------------------
  *
@@ -215,4 +215,4 @@ function render(root: HTMLElement, output: HTMLElement) {
  *
  * -------------------------------- */
 
-export { h, useState, render, Hypnode, Tag };
+export { Hypnode, Tag, IVNode, h, useState, render };
