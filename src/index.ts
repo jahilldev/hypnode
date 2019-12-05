@@ -195,8 +195,24 @@ function addAttributes(element: HTMLElement, key: string, value: string) {
 
 /* -----------------------------------
  *
+ * Render
+ *
+ * -------------------------------- */
+
+function render(root: HTMLElement, output: HTMLElement) {
+   if (!root.firstElementChild) {
+      root.appendChild(output);
+
+      return;
+   }
+
+   root.replaceChild(output, root.firstElementChild);
+}
+
+/* -----------------------------------
+ *
  * Export
  *
  * -------------------------------- */
 
-export { h, useState, Hypnode, Tag };
+export { h, useState, render, Hypnode, Tag };

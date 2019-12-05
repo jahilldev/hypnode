@@ -19,6 +19,13 @@ const testText = 'testText';
 const spyCreateElement = jest.spyOn(document, 'createElement');
 const mockEventHandler = jest.fn();
 const mockRefCallback = jest.fn();
+const mockAppendChild = jest.fn();
+const mockReplaceChild = jest.fn();
+const mockRoot = (child: boolean) => ({
+   firstElementChild: child,
+   appendChild: mockAppendChild,
+   replaceChild: mockReplaceChild,
+});
 
 /* -----------------------------------
  *
@@ -26,7 +33,7 @@ const mockRefCallback = jest.fn();
  *
  * -------------------------------- */
 
-import { h } from '../../src/index';
+import { h, render } from '../../src/index';
 
 /* -----------------------------------
  *
@@ -127,5 +134,23 @@ describe('Core:Hypnode', () => {
       );
 
       expect(result.outerHTML).toEqual(sample);
+   });
+
+   it('correctly appends output with "render()" to root element', () => {
+      const root = mockRoot(false) as any;
+      const result = h('div', { title: testText }, testText);
+
+      render(root, result);
+
+      expect(mockAppendChild).toBeCalledWith(result);
+   });
+
+   it('correctly replaces root child with "render()"', () => {
+      const root = mockRoot(true) as any;
+      const result = h('div', { title: testText }, testText);
+
+      render(root, result);
+
+      expect(mockReplaceChild).toBeCalledWith(result, root.firstElementChild);
    });
 });

@@ -96,6 +96,30 @@ Will produce the following:
 </div>
 ```
 
+# Rendering
+
+As `hypnode` just returns a fully formed `HTMLElement`, you can handle it's output easily using native `DOM` API's like `root.appendChild` or `root.replaceChild`. There is, however, a helper function exported to aid with this:
+
+```
+const root = document.getElementById('root');
+...
+const result = h('div', { class: 'wrapper' }, 'Lorem ipsum');
+...
+render(root, result);
+```
+
+or, with `JSX`:
+
+```
+const root = document.getElementById('root');
+...
+const result = (
+   <div class="wrapper">Lorem ipsum</div>
+)
+...
+render(root, result);
+```
+
 # Event Binding
 
 `hypnode` provides a set of properties for you to apply DOM events. All native events are supported, formatted in camelCase and prefixed with `on`. For example:
