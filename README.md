@@ -222,7 +222,9 @@ You provide mutations to your state via the `setState` function, this accepts a 
 
 # SSR
 
-`hypnode` provides a fallback Virtual `DOM` representation for server side rendering (universal rendering). You can use this output to generate a complete `HTML` representation of your app. This output depends on a `window.document` reference being defined, if it is, `hypnode` will return a standard `HTMLElement`. A prebuilt utility to provide this will be coming soon.
+`hypnode` provides a fallback Virtual `DOM` representation for server side rendering (universal rendering). You can use this output to generate a complete `HTML` representation of your app. This output depends on a `window.document` reference being defined, if it is, `hypnode` will return a standard `HTMLElement`. A prebuilt utility that provides this can be found below:
+
+`[hypnode-server](https://github.com/jhdevuk/hypnode-server)
 
 # TypeScript
 
