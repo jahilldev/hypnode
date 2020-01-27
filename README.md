@@ -1,4 +1,6 @@
-A super fast and lightweight (**971bytes** gzipped) utility function to build HTML node trees, and stateful functional components. Can be used either directly via the `h` function, or from transpiled `JSX`.
+A super fast and lightweight (**971bytes** gzipped) utility function to build HTML node trees and stateful functional components. Can be used either directly via the `h` function, or from transpiled `JSX`.
+
+Due to it's size, `hypnode` is a useful companion utility for writing _WebComponents_, simplifying `HTML` structures, element references and state management. See section entitled "WebComponents" for an example.
 
 # Getting Started
 
@@ -219,6 +221,45 @@ function Button({ buttonText }) {
 ```
 
 You provide mutations to your state via the `setState` function, this accepts a _new_ value you wish to assign. Whenever this function is called, the component will be re-rendered.
+
+## WebComponents
+
+Creating and managing complex HTML structures using _WebComponents_ can become tricky as their size increases. `hypnode` simplifies this by incorporating a familiar component and state pattern into your custom elements. You can find more info on _WebComponents_ [here](https://www.webcomponents.org/introduction). As `hypnode` is fast and lightweight, _WebComponents_ can be more easily shared between projects without significant dependency overhead.
+
+A quick example can be found below:
+
+```
+// myComponent.tsx (TypeScript + JSX)
+
+import { h, useState, State } from  'hypnode';
+...
+class MyComponent extends HTMLElement {
+   private state: State<number>;
+
+   public connectedCallback() {
+      const Button = () => this.renderButton();
+
+      this.appendChild(<Button  />);
+   }
+
+   private  renderButton = () => {
+      const [counter] = (this.state =  useState(0));
+
+      return (
+         <div class="my-component">
+            <p>Counter: {counter}</p>
+            <button onClick={this.onClick}>Click Here</button>
+         </div>
+      );
+   }
+
+   private onClick = (ev: Event) => {
+      const [counter, setState] = this.state;
+
+      setState(counter + 1);
+   }
+}
+```
 
 # SSR
 

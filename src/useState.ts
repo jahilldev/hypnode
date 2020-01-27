@@ -25,6 +25,14 @@ interface IContext {
 
 /* -----------------------------------
  *
+ * IState
+ *
+ * -------------------------------- */
+
+type State<T> = [T, (value: T) => void];
+
+/* -----------------------------------
+ *
  * Variables
  *
  * -------------------------------- */
@@ -39,7 +47,7 @@ let callRender: number = null;
  *
  * -------------------------------- */
 
-function useState(initial: any) {
+function useState<T>(initial: T): State<T> {
    let index = callIndex;
    let state = initial;
 
@@ -128,4 +136,4 @@ function reRender(index: number) {
  *
  * -------------------------------- */
 
-export { useState, setIndex, setElement };
+export { State, useState, setIndex, setElement };
