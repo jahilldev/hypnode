@@ -1,27 +1,27 @@
 {
-   "compilerOptions": {
-      "baseUrl": "./",
-      "outDir": "./dist",
-      "noImplicitAny": true,
-      "noEmitOnError": true,
-      "allowSyntheticDefaultImports": true,
-      "noFallthroughCasesInSwitch": true,
-      "target": "es6",
-      "declaration": true,
-      "module": "commonjs",
-      "moduleResolution": "node",
-      "sourceMap": true,
-      "inlineSourceMap": false,
-      "inlineSources": false,
-      "importHelpers": true,
-      "esModuleInterop": true,
-      "lib": ["dom", "es2015", "es2016", "es2017"],
-      "plugins": [
-         {
-            "name": "typescript-tslint-plugin",
-            "alwaysShowRuleFailuresAsWarnings": true
-         }
-      ]
-   },
-   "exclude": ["./dist/**", "node_modules", "./tests/**"]
+  "compilerOptions": {
+    "baseUrl": "./",
+    "outDir": "./dist",
+    "noImplicitAny": true,
+    "noEmitOnError": true,
+    "allowSyntheticDefaultImports": true,
+    "noFallthroughCasesInSwitch": true,
+    "target": "es6",
+    "declaration": true,
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "inlineSourceMap": false,
+    "inlineSources": false,
+    "importHelpers": true,
+    "esModuleInterop": true,
+    "lib": ["dom", "es2015", "es2016", "es2017"],
+    "plugins": [
+      {
+        "name": "typescript-tslint-plugin",
+        "alwaysShowRuleFailuresAsWarnings": true
+      }
+    ]
+  },
+  "exclude": ["./dist/**", "node_modules", "./tests/**"]
 }
