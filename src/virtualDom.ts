@@ -8,9 +8,9 @@ import { Tag } from './index';
  * -------------------------------- */
 
 interface IVNode {
-   nodeName: Tag;
-   attrs: IAttrs;
-   children: any[];
+  nodeName: Tag;
+  attrs: IAttrs;
+  children: any[];
 }
 
 /* -----------------------------------
@@ -20,11 +20,11 @@ interface IVNode {
  * -------------------------------- */
 
 function virtualDom(tag: Tag, attrs: IAttrs, children: any[]): any {
-   return {
-      nodeName: tag,
-      attrs: filterValidAttributes(attrs),
-      children,
-   };
+  return {
+    nodeName: tag,
+    attrs: filterValidAttributes(attrs),
+    children,
+  };
 }
 
 /* -----------------------------------
@@ -34,14 +34,14 @@ function virtualDom(tag: Tag, attrs: IAttrs, children: any[]): any {
  * -------------------------------- */
 
 function filterValidAttributes(attrs: IAttrs) {
-   const keys = Object.keys(attrs);
-   const valid = keys.filter(key => key.slice(0, 2) !== 'on' && key !== 'ref');
+  const keys = Object.keys(attrs);
+  const valid = keys.filter(key => key.slice(0, 2) !== 'on' && key !== 'ref');
 
-   return valid.reduce((result: IAttrs, key) => {
-      result[key] = attrs[key];
+  return valid.reduce((result: IAttrs, key) => {
+    result[key] = attrs[key];
 
-      return result;
-   }, {});
+    return result;
+  }, {});
 }
 
 /* -----------------------------------

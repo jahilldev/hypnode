@@ -1,9 +1,9 @@
 {
-   "editor.formatOnSave": true,
-   "prettier.requireConfig": true,
-   "editor.tabSize": 3,
-   "editor.codeActionsOnSave": {
-      "source.fixAll.tslint": true,
-      "source.fixAll.prettier": true
-   }
+  "editor.formatOnSave": true,
+  "prettier.requireConfig": true,
+  "editor.tabSize": 2,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.tslint": true,
+    "source.fixAll.prettier": true
+  }
 }

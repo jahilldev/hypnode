@@ -9,12 +9,12 @@ import { IVNode, virtualDom } from './virtualDom';
  * -------------------------------- */
 
 declare global {
-   namespace JSX {
-      /* tslint:disable:interface-name */
-      interface IntrinsicElements {
-         [element: string]: IAttrs;
-      }
-   }
+  namespace JSX {
+    /* tslint:disable:interface-name */
+    interface IntrinsicElements {
+      [element: string]: IAttrs;
+    }
+  }
 }
 
 /* -----------------------------------
@@ -33,40 +33,40 @@ type Tag = string | ((attrs?: IAttrs) => HTMLElement);
  * -------------------------------- */
 
 function h(tag: Tag, attrs?: IAttrs, ...children: any[]): HTMLElement {
-   const { document = null } = typeof window !== 'undefined' ? window : {};
+  const { document = null } = typeof window !== 'undefined' ? window : {};
 
-   children = [].concat.apply([], children);
+  children = [].concat.apply([], children);
 
-   if (tag instanceof Function) {
-      const props = { ...attrs, children };
-      const index = setIndex(tag, props);
+  if (tag instanceof Function) {
+    const props = { ...attrs, children };
+    const index = setIndex(tag, props);
 
-      return setElement(tag(props), index);
-   }
+    return setElement(tag(props), index);
+  }
 
-   if (!document) {
-      return virtualDom(tag, attrs, children);
-   }
+  if (!document) {
+    return virtualDom(tag, attrs, children);
+  }
 
-   const element = document.createElement(tag);
+  const element = document.createElement(tag);
 
-   applyNodeProperties(element, attrs);
+  applyNodeProperties(element, attrs);
 
-   if (children.length === 0) {
-      return element;
-   }
+  if (children.length === 0) {
+    return element;
+  }
 
-   children.forEach(child => {
-      if (child instanceof HTMLElement) {
-         element.appendChild(child);
+  children.forEach(child => {
+    if (child instanceof HTMLElement) {
+      element.appendChild(child);
 
-         return;
-      }
+      return;
+    }
 
-      element.appendChild(document.createTextNode(child));
-   });
+    element.appendChild(document.createTextNode(child));
+  });
 
-   return element;
+  return element;
 }
 
 /* -----------------------------------
@@ -76,25 +76,25 @@ function h(tag: Tag, attrs?: IAttrs, ...children: any[]): HTMLElement {
  * -------------------------------- */
 
 function applyNodeProperties(element: HTMLElement, attrs?: IAttrs) {
-   const keys = Object.keys(attrs || {});
+  const keys = Object.keys(attrs || {});
 
-   for (const key of keys) {
-      const value = attrs[key];
+  for (const key of keys) {
+    const value = attrs[key];
 
-      if (addEventListener(element, key, value)) {
-         continue;
-      }
+    if (addEventListener(element, key, value)) {
+      continue;
+    }
 
-      if (addElementReference(element, key, value)) {
-         continue;
-      }
+    if (addElementReference(element, key, value)) {
+      continue;
+    }
 
-      if (addStyleProperies(element, key, value)) {
-         continue;
-      }
+    if (addStyleProperies(element, key, value)) {
+      continue;
+    }
 
-      addAttributes(element, key, value);
-   }
+    addAttributes(element, key, value);
+  }
 }
 
 /* -----------------------------------
@@ -104,19 +104,19 @@ function applyNodeProperties(element: HTMLElement, attrs?: IAttrs) {
  * -------------------------------- */
 
 function addEventListener(
-   element: HTMLElement,
-   key: string,
-   handler: EventListener
+  element: HTMLElement,
+  key: string,
+  handler: EventListener
 ) {
-   if (key.slice(0, 2) !== 'on') {
-      return false;
-   }
+  if (key.slice(0, 2) !== 'on') {
+    return false;
+  }
 
-   const eventName = key.slice(2).toLowerCase();
+  const eventName = key.slice(2).toLowerCase();
 
-   element.addEventListener(eventName, handler, false);
+  element.addEventListener(eventName, handler, false);
 
-   return true;
+  return true;
 }
 
 /* -----------------------------------
@@ -126,17 +126,17 @@ function addEventListener(
  * -------------------------------- */
 
 function addElementReference(
-   element: HTMLElement,
-   key: string,
-   handler: (el: Element) => void
+  element: HTMLElement,
+  key: string,
+  handler: (el: Element) => void
 ) {
-   if (key !== 'ref') {
-      return false;
-   }
+  if (key !== 'ref') {
+    return false;
+  }
 
-   handler(element);
+  handler(element);
 
-   return true;
+  return true;
 }
 
 /* -----------------------------------
@@ -146,27 +146,27 @@ function addElementReference(
  * -------------------------------- */
 
 function addStyleProperies(
-   element: HTMLElement,
-   key: string,
-   value: { [index: string]: string }
+  element: HTMLElement,
+  key: string,
+  value: { [index: string]: string }
 ) {
-   if (key !== 'style') {
-      return false;
-   }
+  if (key !== 'style') {
+    return false;
+  }
 
-   const items = Object.keys(value);
+  const items = Object.keys(value);
 
-   const result = items.reduce((style: string, key, index) => {
-      const name = key.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
+  const result = items.reduce((style: string, key, index) => {
+    const name = key.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
 
-      style += `${name}:${value[key]};`;
+    style += `${name}:${value[key]};`;
 
-      return style;
-   }, '');
+    return style;
+  }, '');
 
-   element.setAttribute('style', result);
+  element.setAttribute('style', result);
 
-   return true;
+  return true;
 }
 
 /* -----------------------------------
@@ -176,21 +176,21 @@ function addStyleProperies(
  * -------------------------------- */
 
 function addAttributes(element: HTMLElement, key: string, value: string) {
-   if (['disabled', 'autocomplete', 'selected', 'checked'].indexOf(key) > -1) {
-      element.setAttribute(key, key);
+  if (['disabled', 'autocomplete', 'selected', 'checked'].indexOf(key) > -1) {
+    element.setAttribute(key, key);
 
-      return;
-   }
+    return;
+  }
 
-   if (!value) {
-      return;
-   }
+  if (!value) {
+    return;
+  }
 
-   if (key === 'className') {
-      key = 'class';
-   }
+  if (key === 'className') {
+    key = 'class';
+  }
 
-   element.setAttribute(key, value);
+  element.setAttribute(key, value);
 }
 
 /* -----------------------------------
@@ -200,13 +200,13 @@ function addAttributes(element: HTMLElement, key: string, value: string) {
  * -------------------------------- */
 
 function render(root: HTMLElement, output: HTMLElement) {
-   if (!root.firstElementChild) {
-      root.appendChild(output);
+  if (!root.firstElementChild) {
+    root.appendChild(output);
 
-      return;
-   }
+    return;
+  }
 
-   root.replaceChild(output, root.firstElementChild);
+  root.replaceChild(output, root.firstElementChild);
 }
 
 /* -----------------------------------

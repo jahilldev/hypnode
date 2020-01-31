@@ -15,12 +15,12 @@ type Component = (attrs?: IAttrs) => HTMLElement;
  * -------------------------------- */
 
 interface IContext {
-   [id: number]: {
-      tag?: Component;
-      attrs?: IAttrs;
-      node?: HTMLElement;
-      state: any;
-   };
+  [id: number]: {
+    tag?: Component;
+    attrs?: IAttrs;
+    node?: HTMLElement;
+    state: any;
+  };
 }
 
 /* -----------------------------------
@@ -48,15 +48,15 @@ let callRender: number = null;
  * -------------------------------- */
 
 function useState<T>(initial: T): State<T> {
-   let index = callIndex;
-   let state = initial;
+  let index = callIndex;
+  let state = initial;
 
-   if (callRender !== null) {
-      index = callRender;
-      state = context[index].state;
-   }
+  if (callRender !== null) {
+    index = callRender;
+    state = context[index].state;
+  }
 
-   return [state, setValue(index)];
+  return [state, setValue(index)];
 }
 
 /* -----------------------------------
@@ -66,20 +66,20 @@ function useState<T>(initial: T): State<T> {
  * -------------------------------- */
 
 function setIndex(tag: Component, attrs: IAttrs) {
-   if (callRender !== null) {
-      return callRender;
-   }
+  if (callRender !== null) {
+    return callRender;
+  }
 
-   const index = (callIndex += 1);
+  const index = (callIndex += 1);
 
-   context[index] = {
-      tag,
-      attrs,
-      node: null,
-      state: null,
-   };
+  context[index] = {
+    tag,
+    attrs,
+    node: null,
+    state: null,
+  };
 
-   return index;
+  return index;
 }
 
 /* -----------------------------------
@@ -89,9 +89,9 @@ function setIndex(tag: Component, attrs: IAttrs) {
  * -------------------------------- */
 
 function setElement(node: HTMLElement, index: number) {
-   context[index].node = node;
+  context[index].node = node;
 
-   return node as HTMLElement;
+  return node as HTMLElement;
 }
 
 /* -----------------------------------
@@ -101,11 +101,11 @@ function setElement(node: HTMLElement, index: number) {
  * -------------------------------- */
 
 function setValue(index: number) {
-   return (value: any) => {
-      context[index].state = value;
+  return (value: any) => {
+    context[index].state = value;
 
-      reRender(index);
-   };
+    reRender(index);
+  };
 }
 
 /* -----------------------------------
@@ -115,19 +115,19 @@ function setValue(index: number) {
  * -------------------------------- */
 
 function reRender(index: number) {
-   const { tag, attrs, node } = context[index];
+  const { tag, attrs, node } = context[index];
 
-   callRender = index;
+  callRender = index;
 
-   const result = tag(attrs);
+  const result = tag(attrs);
 
-   callRender = null;
+  callRender = null;
 
-   if (node instanceof HTMLElement) {
-      setTimeout(() => node.parentNode.replaceChild(result, node), 0);
-   }
+  if (node instanceof HTMLElement) {
+    setTimeout(() => node.parentNode.replaceChild(result, node), 0);
+  }
 
-   context[index].node = result;
+  context[index].node = result;
 }
 
 /* -----------------------------------

@@ -23,21 +23,21 @@ import { h, useState } from '../../src/index';
  * -------------------------------- */
 
 describe('Core:useState', () => {
-   beforeEach(() => jest.clearAllMocks());
+  beforeEach(() => jest.clearAllMocks());
 
-   it('correctly renders component from "useState" function', () => {
-      const sample = `<a>${testValue + 1}</a>`;
-      const result = h(Component, { state: testValue });
-      const root = h('div', {}, result);
+  it('correctly renders component from "useState" function', () => {
+    const sample = `<a>${testValue + 1}</a>`;
+    const result = h(Component, { state: testValue });
+    const root = h('div', {}, result);
 
-      root.appendChild(result);
+    root.appendChild(result);
 
-      const event = new Event('click');
+    const event = new Event('click');
 
-      result.dispatchEvent(event);
+    result.dispatchEvent(event);
 
-      setTimeout(() => expect(root.innerHTML).toEqual(sample), 0);
-   });
+    setTimeout(() => expect(root.innerHTML).toEqual(sample), 0);
+  });
 });
 
 /* -----------------------------------
@@ -47,7 +47,7 @@ describe('Core:useState', () => {
  * -------------------------------- */
 
 function Component({ state }: IAttrs) {
-   const [value, setNumber] = useState(state);
+  const [value, setNumber] = useState(state);
 
-   return h('a', { onClick: () => setNumber(value + 1) }, value);
+  return h('a', { onClick: () => setNumber(value + 1) }, value);
 }
