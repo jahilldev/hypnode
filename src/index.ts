@@ -10,7 +10,6 @@ import { IVNode, virtualDom } from './virtualDom';
 
 declare global {
   namespace JSX {
-    /* tslint:disable:interface-name */
     interface IntrinsicElements {
       [element: string]: IAttrs;
     }
@@ -25,77 +24,7 @@ declare global {
 
 type Hypnode = (tag: Tag, attrs?: IAttrs, ...children: any[]) => HTMLElement;
 type Tag = string | ((attrs?: IAttrs) => HTMLElement);
-
-/* -----------------------------------
- *
- * Hypnode
- *
- * -------------------------------- */
-
-function h(tag: Tag, attrs?: IAttrs, ...children: any[]): HTMLElement {
-  const { document = null } = typeof window !== 'undefined' ? window : {};
-
-  children = [].concat.apply([], children);
-
-  if (tag instanceof Function) {
-    const props = { ...attrs, children };
-    const index = setIndex(tag, props);
-
-    return setElement(tag(props), index);
-  }
-
-  if (!document) {
-    return virtualDom(tag, attrs, children);
-  }
-
-  const element = document.createElement(tag);
-
-  applyNodeProperties(element, attrs);
-
-  if (children.length === 0) {
-    return element;
-  }
-
-  children.forEach(child => {
-    if (child instanceof HTMLElement) {
-      element.appendChild(child);
-
-      return;
-    }
-
-    element.appendChild(document.createTextNode(child));
-  });
-
-  return element;
-}
-
-/* -----------------------------------
- *
- * Properties
- *
- * -------------------------------- */
-
-function applyNodeProperties(element: HTMLElement, attrs?: IAttrs) {
-  const keys = Object.keys(attrs || {});
-
-  for (const key of keys) {
-    const value = attrs[key];
-
-    if (addEventListener(element, key, value)) {
-      continue;
-    }
-
-    if (addElementReference(element, key, value)) {
-      continue;
-    }
-
-    if (addStyleProperies(element, key, value)) {
-      continue;
-    }
-
-    addAttributes(element, key, value);
-  }
-}
+type Child = HTMLElement | string | number | boolean | null;
 
 /* -----------------------------------
  *
@@ -195,6 +124,82 @@ function addAttributes(element: HTMLElement, key: string, value: string) {
 
 /* -----------------------------------
  *
+ * Properties
+ *
+ * -------------------------------- */
+
+function applyNodeProperties(element: HTMLElement, attrs?: IAttrs) {
+  const keys = Object.keys(attrs || {});
+
+  if (!keys.length) {
+    return;
+  }
+
+  for (const key of keys) {
+    const value = attrs[key];
+
+    if (addEventListener(element, key, value)) {
+      return;
+    }
+
+    if (addElementReference(element, key, value)) {
+      return;
+    }
+
+    if (addStyleProperies(element, key, value)) {
+      return;
+    }
+
+    addAttributes(element, key, value);
+  }
+}
+
+/* -----------------------------------
+ *
+ * Hypnode
+ *
+ * -------------------------------- */
+
+function h(tag: Tag, attrs?: IAttrs, ...nested: any[]): HTMLElement {
+  const { document = null } = typeof window !== 'undefined' ? window : {};
+  const children: Child[] = [].concat.apply([], nested);
+
+  if (tag instanceof Function) {
+    const props = { ...attrs, children };
+    const index = setIndex(tag, props);
+
+    return setElement(tag(props), index);
+  }
+
+  if (!document) {
+    return virtualDom(tag, attrs, children);
+  }
+
+  const element = document.createElement(tag);
+
+  applyNodeProperties(element, attrs);
+
+  if (children.length === 0) {
+    return element;
+  }
+
+  children.forEach((child) => {
+    if (child instanceof HTMLElement) {
+      element.appendChild(child);
+
+      return;
+    }
+
+    if (typeof child === 'string' || typeof child === 'number') {
+      element.appendChild(document.createTextNode(child.toString()));
+    }
+  });
+
+  return element;
+}
+
+/* -----------------------------------
+ *
  * Render
  *
  * -------------------------------- */
@@ -219,4 +224,4 @@ function render(root: HTMLElement | null, output: HTMLElement) {
  *
  * -------------------------------- */
 
-export { Hypnode, Tag, State, IVNode, h, useState, render };
+export { Hypnode, Tag, Child, State, IVNode, h, useState, render };

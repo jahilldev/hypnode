@@ -43,6 +43,54 @@ let callRender: number = null;
 
 /* -----------------------------------
  *
+ * Element
+ *
+ * -------------------------------- */
+
+function setElement(node: HTMLElement, index: number) {
+  context[index].node = node;
+
+  return node;
+}
+
+/* -----------------------------------
+ *
+ * Render
+ *
+ * -------------------------------- */
+
+function reRender(index: number) {
+  const { tag, attrs, node } = context[index];
+
+  callRender = index;
+
+  const result = setElement(tag(attrs), index);
+
+  callRender = null;
+
+  if (node instanceof HTMLElement) {
+    setTimeout(() => {
+      node.parentNode.replaceChild(result, node);
+    }, 0);
+  }
+}
+
+/* -----------------------------------
+ *
+ * Set
+ *
+ * -------------------------------- */
+
+function setValue(index: number) {
+  return (value: any) => {
+    context[index].state = value;
+
+    reRender(index);
+  };
+}
+
+/* -----------------------------------
+ *
  * Use
  *
  * -------------------------------- */
@@ -70,7 +118,9 @@ function setIndex(tag: Component, attrs: IAttrs) {
     return callRender;
   }
 
-  const index = (callIndex += 1);
+  callIndex += 1;
+
+  const index = callIndex;
 
   context[index] = {
     tag,
@@ -80,54 +130,6 @@ function setIndex(tag: Component, attrs: IAttrs) {
   };
 
   return index;
-}
-
-/* -----------------------------------
- *
- * Element
- *
- * -------------------------------- */
-
-function setElement(node: HTMLElement, index: number) {
-  context[index].node = node;
-
-  return node as HTMLElement;
-}
-
-/* -----------------------------------
- *
- * Set
- *
- * -------------------------------- */
-
-function setValue(index: number) {
-  return (value: any) => {
-    context[index].state = value;
-
-    reRender(index);
-  };
-}
-
-/* -----------------------------------
- *
- * Render
- *
- * -------------------------------- */
-
-function reRender(index: number) {
-  const { tag, attrs, node } = context[index];
-
-  callRender = index;
-
-  const result = tag(attrs);
-
-  callRender = null;
-
-  if (node instanceof HTMLElement) {
-    setTimeout(() => node.parentNode.replaceChild(result, node), 0);
-  }
-
-  context[index].node = result;
 }
 
 /* -----------------------------------

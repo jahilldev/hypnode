@@ -18,6 +18,18 @@ import { h, useState } from '../../src/index';
 
 /* -----------------------------------
  *
+ * Component
+ *
+ * -------------------------------- */
+
+function Component({ state }: IAttrs) {
+  const [value, setNumber] = useState(state);
+
+  return h('a', { onClick: () => setNumber(value + 1) }, value);
+}
+
+/* -----------------------------------
+ *
  * State
  *
  * -------------------------------- */
@@ -41,15 +53,3 @@ describe('Core:useState', () => {
     setTimeout(() => expect(root.innerHTML).toEqual(sample), 0);
   });
 });
-
-/* -----------------------------------
- *
- * Component
- *
- * -------------------------------- */
-
-function Component({ state }: IAttrs) {
-  const [value, setNumber] = useState(state);
-
-  return h('a', { onClick: () => setNumber(value + 1) }, value);
-}

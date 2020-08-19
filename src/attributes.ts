@@ -1,4 +1,4 @@
-import { Hypnode } from './index';
+import { Child } from './index';
 
 /* -----------------------------------
  *
@@ -8,7 +8,7 @@ import { Hypnode } from './index';
 
 interface IAttrs {
   [index: string]: any;
-  children?: string | Hypnode[];
+  children?: Child[];
   ref?: (el: HTMLElement) => void;
   id?: string;
   title?: string;

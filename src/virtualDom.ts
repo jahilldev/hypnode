@@ -15,6 +15,23 @@ interface IVNode {
 
 /* -----------------------------------
  *
+ * Filter
+ *
+ * -------------------------------- */
+
+function filterValidAttributes(attrs: IAttrs) {
+  const keys = Object.keys(attrs);
+  const valid = keys.filter((key) => key.slice(0, 2) !== 'on' && key !== 'ref');
+
+  return valid.reduce((result: IAttrs, key) => {
+    result[key] = attrs[key];
+
+    return result;
+  }, {});
+}
+
+/* -----------------------------------
+ *
  * Virtual
  *
  * -------------------------------- */
@@ -25,23 +42,6 @@ function virtualDom(tag: Tag, attrs: IAttrs, children: any[]): any {
     attrs: filterValidAttributes(attrs),
     children,
   };
-}
-
-/* -----------------------------------
- *
- * Filter
- *
- * -------------------------------- */
-
-function filterValidAttributes(attrs: IAttrs) {
-  const keys = Object.keys(attrs);
-  const valid = keys.filter(key => key.slice(0, 2) !== 'on' && key !== 'ref');
-
-  return valid.reduce((result: IAttrs, key) => {
-    result[key] = attrs[key];
-
-    return result;
-  }, {});
 }
 
 /* -----------------------------------
