@@ -218,23 +218,27 @@ root.appendChild(<Button className="big">Click here</Button>);
 
 First, you'll need to import the hook function:
 
-```
+```javascript
 import { h, useState } from 'hypnode';
 ```
 
 Once imported, you can initialize a state registry in your components by doing the following:
 
-```
-const [state, setState] = useState([value]: any);
+```javascript
+const [state, setState] = useState(([value]: any));
 ```
 
 The `useState` function takes a single argument, the initial value you wish to assign to the state. This can be anything, a primitive or something more complex like an object. For example:
 
-```
+```javascript
 function Button({ buttonText }) {
-   const [state, setState] = useState(10);
+  const [state, setState] = useState(10);
 
-   return h('button', { onClick: () => setState(state + 1) }, `${buttonText}: ${state}`);
+  return h(
+    'button',
+    { onClick: () => setState(state + 1) },
+    `${buttonText}: ${state}`
+  );
 }
 ```
 
