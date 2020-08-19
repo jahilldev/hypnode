@@ -23,7 +23,9 @@ import { h, useState } from '../../src/index';
  * -------------------------------- */
 
 describe('Core:useState', () => {
-  beforeEach(() => jest.clearAllMocks());
+  jest.useFakeTimers();
+
+  afterEach(() => jest.clearAllMocks());
 
   it('correctly renders component from "useState" function', () => {
     const sample = `<a>${testValue + 1}</a>`;

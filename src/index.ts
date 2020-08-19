@@ -156,10 +156,10 @@ function addStyleProperies(
 
   const items = Object.keys(value);
 
-  const result = items.reduce((style: string, key, index) => {
-    const name = key.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
+  const result = items.reduce((style, item) => {
+    const name = item.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
 
-    style += `${name}:${value[key]};`;
+    style += `${name}:${value[item]};`;
 
     return style;
   }, '');
@@ -199,7 +199,11 @@ function addAttributes(element: HTMLElement, key: string, value: string) {
  *
  * -------------------------------- */
 
-function render(root: HTMLElement, output: HTMLElement) {
+function render(root: HTMLElement | null, output: HTMLElement) {
+  if (!root) {
+    throw new Error('hypnode -> render(): Missing root element');
+  }
+
   if (!root.firstElementChild) {
     root.appendChild(output);
 

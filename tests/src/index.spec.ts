@@ -136,21 +136,27 @@ describe('Core:Hypnode', () => {
     expect(result.outerHTML).toEqual(sample);
   });
 
-  it('correctly appends output with "render()" to root element', () => {
-    const root = mockRoot(false) as any;
-    const result = h('div', { title: testText }, testText);
+  describe('render()', () => {
+    it('correctly appends output with "render()" to root element', () => {
+      const root = mockRoot(false) as any;
+      const result = h('div', { title: testText }, testText);
 
-    render(root, result);
+      render(root, result);
 
-    expect(mockAppendChild).toBeCalledWith(result);
-  });
+      expect(mockAppendChild).toBeCalledWith(result);
+    });
 
-  it('correctly replaces root child with "render()"', () => {
-    const root = mockRoot(true) as any;
-    const result = h('div', { title: testText }, testText);
+    it('correctly replaces root child with "render()"', () => {
+      const root = mockRoot(true) as any;
+      const result = h('div', { title: testText }, testText);
 
-    render(root, result);
+      render(root, result);
 
-    expect(mockReplaceChild).toBeCalledWith(result, root.firstElementChild);
+      expect(mockReplaceChild).toBeCalledWith(result, root.firstElementChild);
+    });
+
+    it('throws an error if root is undefined', () => {
+      expect(() => render(null, h('div'))).toThrowError();
+    });
   });
 });
