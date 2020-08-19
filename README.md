@@ -32,7 +32,7 @@ h([type]: string | Function, [attributes]?: object, [children]?: array[]);
 
 The code below:
 
-```
+```javascript
 const result = h('div', { title: 'A DIV!' }, [
    h('h1', { class: 'title' }, 'Hypnode'),
    h('p', { id: 'text'}, 'My text value'),
@@ -43,10 +43,10 @@ console.log(result.outerHTML);
 
 Will produce the following:
 
-```
+```html
 <div title="A DIV!">
-   <h1 class="title">Hypnode</h1>
-   <p id="text">My text value</p>
+  <h1 class="title">Hypnode</h1>
+  <p id="text">My text value</p>
 </div>
 ```
 
@@ -58,7 +58,7 @@ Will produce the following:
 
 Transpilation of `JSX` is provided out of the box by custom factories (TypeScript 1.8+), to apply this, add the following to your `tsconfig.json` file:
 
-```
+```json
 "compilerOptions": {
    "jsx": "react",
    "jsxFactory": "h",
@@ -74,7 +74,7 @@ To apply the correct types, all files that contain `JSX` must have the extension
 
 The code below:
 
-```
+```javascript
 const root = document.getElementId('root');
 ...
 const result = (
@@ -90,11 +90,11 @@ root.appendChild(result);
 
 Will produce the following:
 
-```
+```html
 <div class="wrapper">
-   <a id="link">
-      Click here
-   </a>
+  <a id="link">
+    Click here
+  </a>
 </div>
 ```
 
@@ -102,7 +102,7 @@ Will produce the following:
 
 As `hypnode` just returns a fully formed `HTMLElement`, you can handle it's output easily using native `DOM` API's like `root.appendChild` or `root.replaceChild`. There is, however, a helper function exported to aid with this:
 
-```
+```javascript
 const root = document.getElementById('root');
 ...
 const result = h('div', { class: 'wrapper' }, 'Lorem ipsum');
@@ -112,7 +112,7 @@ render(root, result);
 
 or, with `JSX`:
 
-```
+```javascript
 const root = document.getElementById('root');
 ...
 const result = (
@@ -126,13 +126,13 @@ render(root, result);
 
 `hypnode` provides a set of properties for you to apply DOM events. All native events are supported, formatted in camelCase and prefixed with `on`. For example:
 
-```
+```javascript
 h('a', { onClick: (ev) => console.log(ev) }, 'Click Here');
 ```
 
 or, with `JSX`:
 
-```
+```javascript
 <input onKeyUp={(ev) => console.log(ev)} />
 ```
 
@@ -140,7 +140,7 @@ or, with `JSX`:
 
 If you need access to a particular node in your tree, use the `ref` property. For example:
 
-```
+```javascript
 let myElement;
 ...
 h('div', { id: 'container' }, [
@@ -150,7 +150,7 @@ h('div', { id: 'container' }, [
 
 or with `JSX`:
 
-```
+```javascript
 let myElement;
 ...
 <div class="wrapper">
@@ -162,7 +162,7 @@ let myElement;
 
 `hypnode` can be used to create re-usable, functional components, below is a simple example:
 
-```
+```javascript
 const root = document.getElementById('root');
 ...
 function Button({ className = '', children }) {
@@ -176,7 +176,7 @@ root.appendChild(button);
 
 or with `JSX`:
 
-```
+```javascript
 const root = document.getElementById('root');
 ...
 function Button({ className = '', children }) {
@@ -228,7 +228,7 @@ Creating and managing complex HTML structures using _WebComponents_ can become t
 
 A quick example can be found below:
 
-```
+```javascript
 // myComponent.tsx (TypeScript + JSX)
 
 import { h, useState, State } from  'hypnode';
