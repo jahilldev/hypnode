@@ -164,10 +164,10 @@ function h(tag: Tag, attrs?: IAttrs, ...nested: any[]): HTMLElement {
   const { document = null } = typeof window !== 'undefined' ? window : {};
   const children: Child[] = [].concat.apply([], nested);
 
-  if (tag instanceof Function) {
-    const props = { ...attrs, children };
-    const index = setIndex(tag, props);
+  const props = { ...attrs, children };
+  const index = setIndex(tag, props);
 
+  if (tag instanceof Function) {
     return setElement(tag(props), index);
   }
 
@@ -195,7 +195,7 @@ function h(tag: Tag, attrs?: IAttrs, ...nested: any[]): HTMLElement {
     }
   });
 
-  return element;
+  return setElement(element, index);
 }
 
 /* -----------------------------------

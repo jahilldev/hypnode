@@ -1,12 +1,5 @@
 import { IAttrs } from './attributes';
-
-/* -----------------------------------
- *
- * Types
- *
- * -------------------------------- */
-
-type Component = (attrs?: IAttrs) => HTMLElement;
+import { Tag } from './index';
 
 /* -----------------------------------
  *
@@ -16,7 +9,7 @@ type Component = (attrs?: IAttrs) => HTMLElement;
 
 interface IContext {
   [id: number]: {
-    tag?: Component;
+    tag?: Tag;
     attrs?: IAttrs;
     node?: HTMLElement;
     state: any;
@@ -62,16 +55,24 @@ function setElement(node: HTMLElement, index: number) {
 function reRender(index: number) {
   const { tag, attrs, node } = context[index];
 
+  let root = node;
+
+  if (typeof tag !== 'function') {
+    return;
+  }
+
   callRender = index;
 
   const result = setElement(tag(attrs), index);
 
+  if (!document.body.contains(node)) {
+    root = context[index + 1].node;
+  }
+
   callRender = null;
 
   if (node instanceof HTMLElement) {
-    setTimeout(() => {
-      node.parentNode.replaceChild(result, node);
-    }, 0);
+    setTimeout(() => root.parentNode.replaceChild(result, root), 0);
   }
 }
 
@@ -113,7 +114,7 @@ function useState<T>(initial: T): State<T> {
  *
  * -------------------------------- */
 
-function setIndex(tag: Component, attrs: IAttrs) {
+function setIndex(tag: Tag, attrs: IAttrs) {
   if (callRender !== null) {
     return callRender;
   }
