@@ -76,7 +76,9 @@ The code below:
 
 ```javascript
 const root = document.getElementId('root');
+
 /*[...]*/
+
 const result = (
   <div class="wrapper">
     <a id="link" onClick={(ev = console.log(ev))}>
@@ -104,9 +106,13 @@ As `hypnode` just returns a fully formed `HTMLElement`, you can handle it's outp
 
 ```javascript
 const root = document.getElementById('root');
+
 /*[...]*/
+
 const result = h('div', { class: 'wrapper' }, 'Lorem ipsum');
+
 /*[...]*/
+
 render(root, result);
 ```
 
@@ -114,9 +120,13 @@ or, with `JSX`:
 
 ```javascript
 const root = document.getElementById('root');
+
 /*[...]*/
+
 const result = <div class="wrapper">Lorem ipsum</div>;
+
 /*[...]*/
+
 render(root, result);
 ```
 
@@ -140,7 +150,9 @@ If you need access to a particular node in your tree, use the `ref` property. Fo
 
 ```javascript
 let myElement;
+
 /*[...]*/
+
 h('div', { id: 'container' }, [
   h(
     'p',
@@ -154,7 +166,9 @@ or with `JSX`:
 
 ```javascript
 let myElement;
+
 /*[...]*/
+
 <div class="wrapper">
   <a href="//link.co" ref={(el) => (myElement = el)}>
     Click here
@@ -168,11 +182,15 @@ let myElement;
 
 ```javascript
 const root = document.getElementById('root');
+
 /*[...]*/
+
 function Button({ className = '', children }) {
   return h('a', { class: `button ${className}` }, children);
 }
+
 /*[...]*/
+
 const button = h(Button, { className: 'big' }, buttonText);
 
 root.appendChild(button);
@@ -182,11 +200,15 @@ or with `JSX`:
 
 ```javascript
 const root = document.getElementById('root');
+
 /*[...]*/
+
 function Button({ className = '', children }) {
   return <a class={`button ${className}`}>{children}</a>;
 }
+
 /*[...]*/
+
 root.appendChild(<Button className="big">Click here</Button>);
 ```
 
@@ -230,6 +252,7 @@ A quick example can be found below:
 import { h, useState, State } from  'hypnode';
 
 /*[...]*/
+
 class MyComponent extends HTMLElement {
    private state: State<number>;
 
