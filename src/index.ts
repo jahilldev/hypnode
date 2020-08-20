@@ -164,6 +164,9 @@ function h(tag: Tag, attrs?: IAttrs, ...nested: any[]): HTMLElement {
   const { document = null } = typeof window !== 'undefined' ? window : {};
   const children: Child[] = [].concat.apply([], nested);
 
+  console.log('#######################');
+  console.log(`h(${typeof tag !== 'string' ? tag.name : tag})`);
+
   const props = { ...attrs, children };
   const index = setIndex(tag, props);
 
@@ -175,25 +178,30 @@ function h(tag: Tag, attrs?: IAttrs, ...nested: any[]): HTMLElement {
     return virtualDom(tag, attrs, children);
   }
 
-  const element = document.createElement(tag);
+  const element: any = document.createElement(tag);
+
+  element.nodeIndex = index;
 
   applyNodeProperties(element, attrs);
 
-  if (children.length === 0) {
-    return element;
+  if (children.length > 0) {
+    console.log('element', element);
+    console.log('children', children);
+
+    element.innerHTML = '';
+
+    children.forEach((child) => {
+      if (child instanceof HTMLElement) {
+        element.appendChild(child);
+
+        return;
+      }
+
+      if (typeof child === 'string' || typeof child === 'number') {
+        element.appendChild(document.createTextNode(child.toString()));
+      }
+    });
   }
-
-  children.forEach((child) => {
-    if (child instanceof HTMLElement) {
-      element.appendChild(child);
-
-      return;
-    }
-
-    if (typeof child === 'string' || typeof child === 'number') {
-      element.appendChild(document.createTextNode(child.toString()));
-    }
-  });
 
   return setElement(element, index);
 }
