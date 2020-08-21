@@ -28,6 +28,8 @@ let callRender: number = null;
 function setElement(node: HTMLElement, index: number) {
   nodeMap[index].node = node;
 
+  (node as any).nodeIndex = index;
+
   return node;
 }
 
@@ -37,46 +39,7 @@ function setElement(node: HTMLElement, index: number) {
  *
  * -------------------------------- */
 
-function getTarget(node: HTMLElement, index: number): Element {
-  const stack = [];
-  let result;
-  let ii;
-
-  stack.push(node);
-
-  console.log(`getTarget(${index})`, node);
-
-  while (stack.length > 0) {
-    result = stack.pop();
-
-    console.log(
-      `getTarget(${index}) -> result / mapIndex vs index`,
-      result,
-      (result as any).nodeIndex,
-      index
-    );
-
-    if ((result as any).nodeIndex === index) {
-      return result;
-    }
-
-    if (result.children && result.children.length) {
-      for (ii = 0; ii < result.children.length; ii += 1) {
-        stack.push(result.children[ii]);
-      }
-    }
-  }
-
-  return null;
-}
-
-/* -----------------------------------
- *
- * Root
- *
- * -------------------------------- */
-
-function getRoot(node: HTMLElement, index: number) {
+function getTarget(node: HTMLElement, index: number) {
   const indexes = Object.keys(nodeMap).map((item) => parseInt(item, 10));
 
   let root = node;
@@ -88,8 +51,6 @@ function getRoot(node: HTMLElement, index: number) {
   for (let i = indexes.length - 1; i >= 0; i--) {
     const item = nodeMap[i].node;
 
-    console.log(`getRoot(${index}) i / item`, i, item);
-
     if (document.body.contains(item)) {
       root = item;
 
@@ -97,9 +58,24 @@ function getRoot(node: HTMLElement, index: number) {
     }
   }
 
-  console.log('getRoot() root:', root);
+  const stack = [root];
+  let result;
 
-  return getTarget(root, index);
+  while (stack.length > 0) {
+    result = stack.pop();
+
+    if ((result as any).nodeIndex === index) {
+      return result;
+    }
+
+    if (result.children && result.children.length) {
+      for (let item = 0; item < result.children.length; item += 1) {
+        stack.push(result.children[item] as any);
+      }
+    }
+  }
+
+  return null;
 }
 
 /* -----------------------------------
@@ -121,30 +97,12 @@ function reRender(index: number) {
 
   const result = tag(attrs);
 
-  console.log(`reRender(${index}) -> root / result`, root, result);
-  console.log(`reRender(${index}) -> context`, nodeMap);
-  console.log(
-    `reRender(${index}) -> index (old/new)`,
-    (node as any).nodeIndex,
-    (result as any).nodeIndex
-  );
-
-  /*
-  if (!document.body.contains(node)) {
-    root = nodeMap[index + 1].node.parentElement;
-
-    console.log(`reRender(${index}) -> bump index (${index + 1})`, root);
-  }
-  */
-
-  // console.log(`reRender(${index}) -> root / parent`, root, root.parentNode);
+  console.log(`reRender(${index})`, nodeMap, result);
 
   callRender = null;
 
   if (node instanceof HTMLElement) {
-    const target = getRoot(root, index);
-
-    console.log(`reRender(${index}) -> target`, target);
+    const target = getTarget(root, index);
 
     target.parentNode.replaceChild(result, target);
 
@@ -192,8 +150,6 @@ function useState<T>(initial: T): State<T> {
 
 function setIndex(tag: Tag, attrs: IAttrs) {
   if (callRender !== null) {
-    console.log(`setIndex(${callRender})`);
-
     return callRender;
   }
 
