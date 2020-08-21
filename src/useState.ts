@@ -38,34 +38,24 @@ function setElement(node: HTMLElement, index: number) {
  * -------------------------------- */
 
 function getTarget(node: HTMLElement, index: number) {
-  const nodeKeys = Object.keys(nodeMap).map((key) => parseInt(key, 10));
-
-  let result;
+  const [rootKey] = Object.keys(nodeMap).map((key) => parseInt(key, 10));
 
   if (document.body.contains(node)) {
     return node;
   }
 
-  for (let key = nodeKeys.length - 1; key >= 0; key -= 1) {
-    const { node: root } = nodeMap[key];
+  let result;
 
-    if (document.body.contains(root)) {
-      result = root;
-
-      break;
-    }
-  }
-
-  const stack: Element[] = [result];
+  const stack: Element[] = [nodeMap[rootKey].node];
 
   while (stack.length > 0) {
     result = stack.pop();
 
-    const { children } = result;
-
     if (result.hypnodeIndex === index) {
       return result;
     }
+
+    const { children } = result;
 
     if (children && children.length) {
       for (let item = 0; item < children.length; item += 1) {
