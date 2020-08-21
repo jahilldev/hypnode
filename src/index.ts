@@ -1,6 +1,7 @@
 import { IAttrs } from './attributes';
 import { Tag, Child, INode } from './internal';
 import { State, useState, setElement, setIndex } from './useState';
+import { useEffect } from './useEffect';
 import { virtualDom } from './virtualDom';
 
 /* -----------------------------------
@@ -213,4 +214,4 @@ function render(root: HTMLElement | null, output: HTMLElement) {
  *
  * -------------------------------- */
 
-export { Child, State, INode, h, useState, render };
+export { Child, State, INode, h, useState, useEffect, render };
