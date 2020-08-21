@@ -25,9 +25,8 @@ let callRender: number = null;
  * -------------------------------- */
 
 function setElement(node: HTMLElement, index: number) {
-  nodeMap[index].node = node;
-
   node.hypnodeIndex = index;
+  nodeMap[index].node = node;
 
   return node;
 }
@@ -62,13 +61,15 @@ function getTarget(node: HTMLElement, index: number) {
   while (stack.length > 0) {
     result = stack.pop();
 
+    const { children } = result;
+
     if (result.hypnodeIndex === index) {
       return result;
     }
 
-    if (result.children && result.children.length) {
-      for (let item = 0; item < result.children.length; item += 1) {
-        stack.push(result.children[item]);
+    if (children && children.length) {
+      for (let item = 0; item < children.length; item += 1) {
+        stack.push(children[item]);
       }
     }
   }
@@ -85,8 +86,6 @@ function getTarget(node: HTMLElement, index: number) {
 function reRender(index: number) {
   const { tag, attrs, node } = nodeMap[index];
 
-  const root = node;
-
   if (typeof tag !== 'function') {
     return;
   }
@@ -98,7 +97,7 @@ function reRender(index: number) {
   callRender = null;
 
   if (node instanceof HTMLElement) {
-    const target = getTarget(root, index);
+    const target = getTarget(node, index);
 
     target.parentNode.replaceChild(result, target);
 
