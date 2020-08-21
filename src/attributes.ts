@@ -1,4 +1,4 @@
-import { Child } from './index';
+import { Child } from './internal';
 
 /* -----------------------------------
  *

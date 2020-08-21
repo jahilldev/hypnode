@@ -1,5 +1,26 @@
 import { IAttrs } from './attributes';
-import { Tag } from './index';
+
+/* -----------------------------------
+ *
+ * Types
+ *
+ * -------------------------------- */
+
+type Hypnode = (tag: Tag, attrs?: IAttrs, ...children: any[]) => HTMLElement;
+type Tag = string | ((attrs?: IAttrs) => HTMLElement);
+type Child = HTMLElement | string | number | boolean | null;
+
+/* -----------------------------------
+ *
+ * INode
+ *
+ * -------------------------------- */
+
+interface INode {
+  nodeName: Tag;
+  attrs: IAttrs;
+  children: any[];
+}
 
 /* -----------------------------------
  *
@@ -30,4 +51,4 @@ const nodeMap: IMap = {};
  *
  * -------------------------------- */
 
-export { IMap, nodeMap };
+export { Hypnode, Tag, Child, INode, IMap, nodeMap };

@@ -1,6 +1,7 @@
 import { IAttrs } from './attributes';
+import { Tag, Child, INode } from './internal';
 import { State, useState, setElement, setIndex } from './useState';
-import { IVNode, virtualDom } from './virtualDom';
+import { virtualDom } from './virtualDom';
 
 /* -----------------------------------
  *
@@ -15,16 +16,6 @@ declare global {
     }
   }
 }
-
-/* -----------------------------------
- *
- * Types
- *
- * -------------------------------- */
-
-type Hypnode = (tag: Tag, attrs?: IAttrs, ...children: any[]) => HTMLElement;
-type Tag = string | ((attrs?: IAttrs) => HTMLElement);
-type Child = HTMLElement | string | number | boolean | null;
 
 /* -----------------------------------
  *
@@ -222,4 +213,4 @@ function render(root: HTMLElement | null, output: HTMLElement) {
  *
  * -------------------------------- */
 
-export { Hypnode, Tag, Child, State, IVNode, h, useState, render };
+export { Child, State, INode, h, useState, render };

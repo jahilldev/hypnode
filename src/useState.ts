@@ -1,6 +1,5 @@
 import { IAttrs } from './attributes';
-import { Tag } from './index';
-import { nodeMap } from './internal';
+import { Tag, nodeMap } from './internal';
 
 /* -----------------------------------
  *
@@ -28,7 +27,7 @@ let callRender: number = null;
 function setElement(node: HTMLElement, index: number) {
   nodeMap[index].node = node;
 
-  (node as any).nodeIndex = index;
+  node.hypnodeIndex = index;
 
   return node;
 }
@@ -40,37 +39,36 @@ function setElement(node: HTMLElement, index: number) {
  * -------------------------------- */
 
 function getTarget(node: HTMLElement, index: number) {
-  const indexes = Object.keys(nodeMap).map((item) => parseInt(item, 10));
+  const nodeKeys = Object.keys(nodeMap).map((key) => parseInt(key, 10));
 
-  let root = node;
+  let result;
 
   if (document.body.contains(node)) {
     return node;
   }
 
-  for (let i = indexes.length - 1; i >= 0; i--) {
-    const item = nodeMap[i].node;
+  for (let key = nodeKeys.length - 1; key >= 0; key -= 1) {
+    const { node: root } = nodeMap[key];
 
-    if (document.body.contains(item)) {
-      root = item;
+    if (document.body.contains(root)) {
+      result = root;
 
       break;
     }
   }
 
-  const stack = [root];
-  let result;
+  const stack: Element[] = [result];
 
   while (stack.length > 0) {
     result = stack.pop();
 
-    if ((result as any).nodeIndex === index) {
+    if (result.hypnodeIndex === index) {
       return result;
     }
 
     if (result.children && result.children.length) {
       for (let item = 0; item < result.children.length; item += 1) {
-        stack.push(result.children[item] as any);
+        stack.push(result.children[item]);
       }
     }
   }
@@ -96,8 +94,6 @@ function reRender(index: number) {
   callRender = index;
 
   const result = tag(attrs);
-
-  console.log(`reRender(${index})`, nodeMap, result);
 
   callRender = null;
 

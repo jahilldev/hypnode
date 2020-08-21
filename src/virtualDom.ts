@@ -1,17 +1,5 @@
 import { IAttrs } from './attributes';
-import { Tag } from './index';
-
-/* -----------------------------------
- *
- * IVNode
- *
- * -------------------------------- */
-
-interface IVNode {
-  nodeName: Tag;
-  attrs: IAttrs;
-  children: any[];
-}
+import { Tag } from './internal';
 
 /* -----------------------------------
  *
@@ -19,7 +7,7 @@ interface IVNode {
  *
  * -------------------------------- */
 
-function filterValidAttributes(attrs: IAttrs) {
+function filterAttributes(attrs: IAttrs) {
   const keys = Object.keys(attrs);
   const valid = keys.filter((key) => key.slice(0, 2) !== 'on' && key !== 'ref');
 
@@ -39,7 +27,7 @@ function filterValidAttributes(attrs: IAttrs) {
 function virtualDom(tag: Tag, attrs: IAttrs, children: any[]): any {
   return {
     nodeName: tag,
-    attrs: filterValidAttributes(attrs),
+    attrs: filterAttributes(attrs),
     children,
   };
 }
@@ -50,4 +38,4 @@ function virtualDom(tag: Tag, attrs: IAttrs, children: any[]): any {
  *
  * -------------------------------- */
 
-export { IVNode, virtualDom };
+export { virtualDom };
