@@ -1,7 +1,6 @@
 import { IAttrs } from './attributes';
-import { Tag, Child, INode } from './internal';
+import { Tag, Child, INode, render } from './internal';
 import { State, useState, setElement, setIndex } from './useState';
-import { useEffect } from './useEffect';
 import { virtualDom } from './virtualDom';
 
 /* -----------------------------------
@@ -24,11 +23,7 @@ declare global {
  *
  * -------------------------------- */
 
-function addEventListener(
-  element: HTMLElement,
-  key: string,
-  handler: EventListener
-) {
+function addEventListener(element: HTMLElement, key: string, handler: EventListener) {
   if (key.slice(0, 2) !== 'on') {
     return false;
   }
@@ -190,28 +185,8 @@ function h(tag: Tag, attrs?: IAttrs, ...nested: any[]): HTMLElement {
 
 /* -----------------------------------
  *
- * Render
- *
- * -------------------------------- */
-
-function render(root: HTMLElement | null, output: HTMLElement) {
-  if (!root) {
-    throw new Error('hypnode -> render(): Missing root element');
-  }
-
-  if (!root.firstElementChild) {
-    root.appendChild(output);
-
-    return;
-  }
-
-  root.replaceChild(output, root.firstElementChild);
-}
-
-/* -----------------------------------
- *
  * Export
  *
  * -------------------------------- */
 
-export { Child, State, INode, h, useState, useEffect, render };
+export { Child, State, INode, h, useState, render };

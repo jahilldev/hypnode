@@ -1,4 +1,5 @@
 import { IAttrs } from './attributes';
+import { h } from './index';
 
 /* -----------------------------------
  *
@@ -64,6 +65,8 @@ const nodeMap: IMap = {};
 function setElement(node: HTMLElement, index: number) {
   node.hypnodeIndex = index;
   nodeMap[index].node = node;
+
+  console.log(`setElement(${index}) -> node`, node);
 
   return node;
 }
@@ -131,15 +134,15 @@ function setRender(index: number) {
  * -------------------------------- */
 
 function getTarget(node: HTMLElement, index: number) {
-  const [rootKey] = Object.keys(nodeMap).map((key) => parseInt(key, 10));
+  const stack: Element[] = [document.body];
 
   if (document.body.contains(node)) {
     return node;
   }
 
-  let result;
+  console.log(`getTarget(${index})`);
 
-  const stack: Element[] = [nodeMap[rootKey].node];
+  let result;
 
   while (stack.length > 0) {
     result = stack.pop();
@@ -167,29 +170,52 @@ function getTarget(node: HTMLElement, index: number) {
  * -------------------------------- */
 
 function reRender(index: number) {
-  const { tag, attrs, node, effect } = nodeMap[index];
+  const {
+    tag,
+    attrs: { children, ...attrs },
+    node,
+  } = nodeMap[index];
 
   if (typeof tag !== 'function') {
     return;
   }
 
+  console.log(`reRender(${index}) -> nodeMap`, nodeMap);
+  console.log(`reRender(${index}) -> children`, children);
+
   setRender(index);
 
-  if (effect) {
-    effect();
-  }
-
-  const result = tag(attrs);
+  const result = h(tag, attrs, ...children);
 
   setRender(null);
 
   if (node instanceof HTMLElement) {
     const target = getTarget(node, index);
 
-    target.parentNode.replaceChild(result, target);
+    console.log(`reRender(${index}) -> replace (target / result)`, target, result);
 
-    setElement(result, index);
+    target.parentNode.replaceChild(result, target);
   }
+}
+
+/* -----------------------------------
+ *
+ * Render
+ *
+ * -------------------------------- */
+
+function render(root: HTMLElement | null, output: HTMLElement) {
+  if (!root) {
+    throw new Error('hypnode -> render(): Missing root element');
+  }
+
+  if (!root.firstElementChild) {
+    root.appendChild(output);
+
+    return;
+  }
+
+  root.replaceChild(output, root.firstElementChild);
 }
 
 /* -----------------------------------
@@ -211,4 +237,5 @@ export {
   getRender,
   setRender,
   reRender,
+  render,
 };
