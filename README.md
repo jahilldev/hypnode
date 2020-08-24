@@ -33,9 +33,15 @@ h([type]: string | Function, [attributes]?: object, [children]?: array[]);
 The code below:
 
 ```javascript
-const result = h('div', { title: 'A DIV!' }, [
-   h('h1', { class: 'title' }, 'Hypnode'),
-   h('p', { id: 'text'}, 'My text value'),
+import { h, render } from 'hypnode';
+
+/*[...]*/
+
+const result = render(
+  h('div', { title: 'A DIV!' }, [
+    h('h1', { class: 'title' }, 'Hypnode'),
+    h('p', { id: 'text'}, 'My text value'),
+  )
 );
 
 console.log(result.outerHTML);
@@ -75,11 +81,13 @@ To apply the correct types, all files that contain `JSX` must have the extension
 The code below:
 
 ```javascript
-const root = document.getElementId('root');
+import { h, render } from 'hypnode';
 
 /*[...]*/
 
-const result = (
+const root = document.getElementId('root');
+
+const result = render(
   <div class="wrapper">
     <a id="link" onClick={(ev = console.log(ev))}>
       Click here
@@ -102,32 +110,24 @@ Will produce the following:
 
 # Rendering
 
-As `hypnode` just returns a fully formed `HTMLElement`, you can handle it's output easily using native `DOM` API's like `root.appendChild` or `root.replaceChild`. There is, however, a helper function exported to aid with this:
+As the `render()` function exported by `hypnode` returns a fully formed `HTMLElement`, you can handle it's output easily using native `DOM` API's like `root.appendChild` or `root.replaceChild`. There is, however, an optional secondary argument that can handle this for you, e.g:
 
 ```javascript
-const root = document.getElementById('root');
-
-/*[...]*/
-
 const result = h('div', { class: 'wrapper' }, 'Lorem ipsum');
 
 /*[...]*/
 
-render(root, result);
+render(result, document.getElementById('root'));
 ```
 
 or, with `JSX`:
 
 ```javascript
-const root = document.getElementById('root');
-
-/*[...]*/
-
 const result = <div class="wrapper">Lorem ipsum</div>;
 
 /*[...]*/
 
-render(root, result);
+render(result, document.getElementById('root'));
 ```
 
 # Event Binding
@@ -154,11 +154,7 @@ let myElement;
 /*[...]*/
 
 h('div', { id: 'container' }, [
-  h(
-    'p',
-    { ref: (el) => (myElement = el) },
-    'Lorem ipsum dolor sit amet, consectetur'
-  ),
+  h('p', { ref: (el) => (myElement = el) }, 'Lorem ipsum dolor sit amet, consectetur'),
 ]);
 ```
 
@@ -181,7 +177,7 @@ let myElement;
 `hypnode` can be used to create re-usable, functional components, below is a simple example:
 
 ```javascript
-const root = document.getElementById('root');
+import { h, render } from 'hypnode';
 
 /*[...]*/
 
@@ -191,15 +187,15 @@ function Button({ className = '', children }) {
 
 /*[...]*/
 
-const button = h(Button, { className: 'big' }, buttonText);
+const button = h(Button, { className: 'big' }, buttonText));
 
-root.appendChild(button);
+render(button, document.getElementById('root'))
 ```
 
 or with `JSX`:
 
 ```javascript
-const root = document.getElementById('root');
+import { h, render } from 'hypnode';
 
 /*[...]*/
 
@@ -209,7 +205,9 @@ function Button({ className = '', children }) {
 
 /*[...]*/
 
-root.appendChild(<Button className="big">Click here</Button>);
+const button = <Button className="big">Click here</Button>;
+
+render(button, document.getElementById('root'));
 ```
 
 # State
@@ -234,11 +232,7 @@ The `useState` function takes a single argument, the initial value you wish to a
 function Button({ buttonText }) {
   const [state, setState] = useState(10);
 
-  return h(
-    'button',
-    { onClick: () => setState(state + 1) },
-    `${buttonText}: ${state}`
-  );
+  return h('button', { onClick: () => setState(state + 1) }, `${buttonText}: ${state}`);
 }
 ```
 
@@ -253,7 +247,7 @@ A quick example can be found below:
 ```javascript
 // myComponent.tsx (TypeScript + JSX)
 
-import { h, useState, State } from  'hypnode';
+import { h, render, useState, State } from  'hypnode';
 
 /*[...]*/
 
@@ -263,7 +257,7 @@ class MyComponent extends HTMLElement {
    public connectedCallback() {
       const Button = () => this.renderButton();
 
-      this.appendChild(<Button  />);
+      this.appendChild(render(<Button  />));
    }
 
    private  renderButton = () => {
