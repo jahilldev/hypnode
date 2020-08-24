@@ -65,8 +65,6 @@ const nodeMap: IMap = {};
 function setElement(node: HTMLElement | Text, index: number) {
   nodeMap[index].node = node;
 
-  console.log(`setElement(${index}) -> node`, node);
-
   return node;
 }
 
@@ -127,42 +125,6 @@ function getRender() {
 
 function setRender(index: number) {
   callRender = index;
-}
-
-/* -----------------------------------
- *
- * Target
- *
- * -------------------------------- */
-
-function getTarget(node: HTMLElement, index: number) {
-  const stack: Element[] = [document.body];
-
-  if (document.body.contains(node)) {
-    return node;
-  }
-
-  console.log(`getTarget(${index})`);
-
-  let result;
-
-  while (stack.length > 0) {
-    result = stack.pop();
-
-    if (result.hypnodeIndex === index) {
-      return result;
-    }
-
-    const { children } = result;
-
-    if (children && children.length) {
-      for (let item = 0; item < children.length; item += 1) {
-        stack.push(children[item]);
-      }
-    }
-  }
-
-  return null;
 }
 
 /* -----------------------------------
@@ -302,8 +264,6 @@ function html(node: INode | string | number, root?: HTMLElement): HTMLElement | 
 
   const { tag, attrs, children } = node;
 
-  console.log('html() -> node', node);
-
   if (tag instanceof Function) {
     const props = { ...attrs, children };
 
@@ -312,19 +272,12 @@ function html(node: INode | string | number, root?: HTMLElement): HTMLElement | 
     return setElement(html(tag(props), root), index);
   }
 
-  console.log('html() -> createElement', tag);
-
   const element = document.createElement(tag);
 
   applyNodeProperties(element, attrs);
 
-  console.log(`html() -> element`, element);
-  console.log(`html() -> children`, children);
-
   children.forEach((item) => {
     const child = html(item, element);
-
-    console.log(`html() -> child`, child);
 
     element.appendChild(child);
   });
@@ -349,10 +302,6 @@ function reRender(index: number) {
     return;
   }
 
-  console.log('###################');
-  console.log(`reRender(${index}) -> node / children`, node, children);
-  console.log(`reRender(${index}) -> nodeMap`, nodeMap);
-
   setRender(index);
 
   const result = html(h(tag, attrs, ...children));
@@ -360,9 +309,7 @@ function reRender(index: number) {
   setRender(null);
 
   if (node instanceof HTMLElement) {
-    const target = getTarget(node, index);
-
-    target.parentNode.replaceChild(result, target);
+    node.parentNode.replaceChild(result, node);
   }
 }
 
@@ -378,9 +325,6 @@ function render(root: HTMLElement | null, node: INode) {
   }
 
   const output = html(node, root);
-
-  console.log('render() -> node', node);
-  console.log('render() -> output', output);
 
   if (!root.firstElementChild) {
     root.appendChild(output);

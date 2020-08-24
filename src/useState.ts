@@ -1,4 +1,12 @@
-import { nodeMap, setElement, getIndex, setIndex, getRender, reRender } from './internal';
+import {
+  nodeMap,
+  setElement,
+  getIndex,
+  setIndex,
+  getRender,
+  reRender,
+  setRender,
+} from './internal';
 
 /* -----------------------------------
  *
@@ -38,6 +46,8 @@ function useState<T>(initial: T): State<T> {
     index = render;
     state = nodeMap[index].state;
   }
+
+  setRender(null);
 
   return [state, setValue(index)];
 }
