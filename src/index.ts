@@ -65,7 +65,7 @@ function h(tag: Tag, attrs?: IAttrs, ...nested: any[]): HTMLElement {
  *
  * -------------------------------- */
 
-function render(root: HTMLElement | null, output: HTMLElement) {
+function render(output: HTMLElement, root: HTMLElement | null) {
   if (!root) {
     throw new Error('hypnode -> render(): Missing root element');
   }
