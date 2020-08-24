@@ -1,5 +1,5 @@
 import { IAttrs } from './attributes';
-import { Tag, Child, INode, render } from './internal';
+import { Tag, INode, render } from './internal';
 import { State, useState } from './useState';
 
 /* -----------------------------------
@@ -34,4 +34,4 @@ function h(tag: Tag, attrs?: IAttrs, ...nested: any[]): INode {
  *
  * -------------------------------- */
 
-export { Child, State, INode, h, useState, render };
+export { State, INode, h, useState, render };

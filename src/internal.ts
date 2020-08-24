@@ -9,7 +9,6 @@ import { h } from './index';
 
 type Hypnode = (tag: Tag, attrs?: IAttrs, ...children: any[]) => HTMLElement;
 type Tag = string | ((attrs?: IAttrs) => INode);
-type Child = HTMLElement | string | number | boolean | null;
 
 /* -----------------------------------
  *
@@ -322,6 +321,8 @@ function update(index: number) {
     return;
   }
 
+  console.log(`update(${index}) -> nodeMap`, nodeMap);
+
   setRender(index);
 
   const result = html(h(tag, attrs, ...children));
@@ -342,7 +343,6 @@ function update(index: number) {
 export {
   Hypnode,
   Tag,
-  Child,
   INode,
   IMap,
   nodeMap,

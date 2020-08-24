@@ -1,4 +1,4 @@
-import { Child } from './internal';
+import { INode } from './internal';
 
 /* -----------------------------------
  *
@@ -8,7 +8,7 @@ import { Child } from './internal';
 
 interface IAttrs {
   [index: string]: any;
-  children?: Child[];
+  children?: INode[];
   ref?: (el: HTMLElement) => void;
   id?: string;
   title?: string;
