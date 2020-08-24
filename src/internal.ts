@@ -57,56 +57,6 @@ const nodeMap: IMap = {};
 
 /* -----------------------------------
  *
- * Element
- *
- * -------------------------------- */
-
-function setElement(node: HTMLElement | Text, index: number) {
-  nodeMap[index].node = node;
-
-  return node;
-}
-
-/* -----------------------------------
- *
- * Index
- *
- * -------------------------------- */
-
-function setIndex(tag: Tag, attrs: IAttrs) {
-  const target = tag === nodeMap[callRender]?.tag;
-
-  if (target) {
-    return callRender;
-  }
-
-  callRender = null;
-  callIndex += 1;
-
-  const index = callIndex;
-
-  nodeMap[index] = {
-    tag,
-    attrs,
-    node: null,
-    state: null,
-  };
-
-  return index;
-}
-
-/* -----------------------------------
- *
- * Index
- *
- * -------------------------------- */
-
-function getIndex() {
-  return callIndex;
-}
-
-/* -----------------------------------
- *
  * Render
  *
  * -------------------------------- */
@@ -123,6 +73,57 @@ function getRender() {
 
 function setRender(index: number) {
   callRender = index;
+}
+
+/* -----------------------------------
+ *
+ * Index
+ *
+ * -------------------------------- */
+
+function getIndex() {
+  return callIndex;
+}
+
+/* -----------------------------------
+ *
+ * Index
+ *
+ * -------------------------------- */
+
+function setIndex(tag: Tag, attrs: IAttrs) {
+  const target = tag === nodeMap[callRender]?.tag;
+
+  if (target) {
+    return callRender;
+  }
+
+  setRender(null);
+
+  callIndex += 1;
+
+  const index = callIndex;
+
+  nodeMap[index] = {
+    tag,
+    attrs,
+    node: null,
+    state: null,
+  };
+
+  return index;
+}
+
+/* -----------------------------------
+ *
+ * Element
+ *
+ * -------------------------------- */
+
+function setElement(node: HTMLElement | Text, index: number) {
+  nodeMap[index].node = node;
+
+  return node;
 }
 
 /* -----------------------------------
@@ -342,8 +343,6 @@ function update(index: number) {
   if (typeof tag !== 'function') {
     return;
   }
-
-  console.log(`update(${index}) -> nodeMap`, nodeMap);
 
   setRender(index);
 
