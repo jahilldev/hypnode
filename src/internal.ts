@@ -35,7 +35,6 @@ interface IMap {
     attrs: IAttrs;
     node: HTMLElement | Text;
     state: any;
-    effect?: any;
   };
 }
 
@@ -91,7 +90,6 @@ function setIndex(tag: Tag, attrs: IAttrs) {
     attrs,
     node: null,
     state: null,
-    effect: null,
   };
 
   return index;
@@ -318,7 +316,6 @@ function reRender(index: number) {
     tag,
     attrs: { children, ...attrs },
     node,
-    effect,
   } = nodeMap[index];
 
   if (typeof tag !== 'function') {
@@ -326,10 +323,6 @@ function reRender(index: number) {
   }
 
   setRender(index);
-
-  if (effect) {
-    effect();
-  }
 
   const result = html(h(tag, attrs, ...children));
 

@@ -1,7 +1,6 @@
 import { IAttrs } from './attributes';
 import { Tag, Child, INode, render } from './internal';
 import { State, useState } from './useState';
-import { useEffect } from './useEffect';
 
 /* -----------------------------------
  *
@@ -35,4 +34,4 @@ function h(tag: Tag, attrs?: IAttrs, ...nested: any[]): INode {
  *
  * -------------------------------- */
 
-export { Child, State, INode, h, useState, useEffect, render };
+export { Child, State, INode, h, useState, render };
