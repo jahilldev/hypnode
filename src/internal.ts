@@ -9,6 +9,7 @@ import { h } from './index';
 
 type Hypnode = (tag: Tag, attrs?: IAttrs, ...children: any[]) => HTMLElement;
 type Tag = string | ((attrs?: IAttrs) => INode);
+type Node = INode | string | number | boolean | null;
 
 /* -----------------------------------
  *
@@ -254,9 +255,13 @@ function applyNodeProperties(element: HTMLElement, attrs?: IAttrs) {
  *
  * -------------------------------- */
 
-function html(node: INode | string | number, root?: HTMLElement): HTMLElement | Text {
+function html(node: Node, root?: HTMLElement): HTMLElement | Text | null {
   if (typeof node === 'string' || typeof node === 'number') {
     return document.createTextNode(node.toString());
+  }
+
+  if (typeof node === 'boolean') {
+    return document.createTextNode('');
   }
 
   const { tag, attrs, children } = node;
