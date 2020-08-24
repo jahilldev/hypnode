@@ -53,7 +53,7 @@ let callRender: number = null;
  *
  * -------------------------------- */
 
-const nodeMap: IMap = {};
+const nodeMap: IMap = [];
 
 /* -----------------------------------
  *
@@ -255,7 +255,7 @@ function applyNodeProperties(element: HTMLElement, attrs?: IAttrs) {
  *
  * -------------------------------- */
 
-function html(node: Node, root?: HTMLElement): HTMLElement | Text | null {
+function html(node: Node, root?: HTMLElement): HTMLElement | Text {
   if (typeof node === 'string' || typeof node === 'number') {
     return document.createTextNode(node.toString());
   }
@@ -268,7 +268,6 @@ function html(node: Node, root?: HTMLElement): HTMLElement | Text | null {
 
   if (tag instanceof Function) {
     const props = { ...attrs, children };
-
     const index = setIndex(tag, props);
 
     return setElement(html(tag(props), root), index);
@@ -311,6 +310,24 @@ function render(node: INode, root?: HTMLElement | null | undefined): HTMLElement
 
 /* -----------------------------------
  *
+ * Resolve
+ *
+ * -------------------------------- */
+
+function resolve() {
+  const nodeKeys = Object.keys(nodeMap).map((key) => parseInt(key, 10));
+
+  nodeKeys.forEach((key) => {
+    const { node } = nodeMap[key];
+
+    if (!document.body.contains(node)) {
+      delete nodeMap[key];
+    }
+  });
+}
+
+/* -----------------------------------
+ *
  * Update
  *
  * -------------------------------- */
@@ -336,6 +353,8 @@ function update(index: number) {
 
   if (node instanceof HTMLElement) {
     node.parentNode.replaceChild(result, node);
+
+    resolve();
   }
 }
 
