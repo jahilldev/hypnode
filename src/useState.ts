@@ -4,8 +4,8 @@ import {
   getIndex,
   setIndex,
   getRender,
-  reRender,
   setRender,
+  update,
 } from './internal';
 
 /* -----------------------------------
@@ -26,7 +26,7 @@ function setValue(index: number) {
   return (value: any) => {
     nodeMap[index].state = value;
 
-    reRender(index);
+    update(index);
   };
 }
 

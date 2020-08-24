@@ -307,11 +307,11 @@ function render(node: INode, root?: HTMLElement | null | undefined): HTMLElement
 
 /* -----------------------------------
  *
- * Render
+ * Update
  *
  * -------------------------------- */
 
-function reRender(index: number) {
+function update(index: number) {
   const {
     tag,
     attrs: { children, ...attrs },
@@ -351,7 +351,7 @@ export {
   setIndex,
   getRender,
   setRender,
-  reRender,
+  update,
   render,
   html,
 };
