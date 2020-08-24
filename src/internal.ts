@@ -291,34 +291,6 @@ function html(node: INode | string | number, root?: HTMLElement): HTMLElement | 
  *
  * -------------------------------- */
 
-function reRender(index: number) {
-  const {
-    tag,
-    attrs: { children, ...attrs },
-    node,
-  } = nodeMap[index];
-
-  if (typeof tag !== 'function') {
-    return;
-  }
-
-  setRender(index);
-
-  const result = html(h(tag, attrs, ...children));
-
-  setRender(null);
-
-  if (node instanceof HTMLElement) {
-    node.parentNode.replaceChild(result, node);
-  }
-}
-
-/* -----------------------------------
- *
- * Render
- *
- * -------------------------------- */
-
 function render(root: HTMLElement | null, node: INode) {
   if (!root) {
     throw new Error('hypnode -> render(): Missing root element');
@@ -333,6 +305,39 @@ function render(root: HTMLElement | null, node: INode) {
   }
 
   root.replaceChild(output, root.firstElementChild);
+}
+
+/* -----------------------------------
+ *
+ * Render
+ *
+ * -------------------------------- */
+
+function reRender(index: number) {
+  const {
+    tag,
+    attrs: { children, ...attrs },
+    node,
+    effect,
+  } = nodeMap[index];
+
+  if (typeof tag !== 'function') {
+    return;
+  }
+
+  setRender(index);
+
+  if (effect) {
+    effect();
+  }
+
+  const result = html(h(tag, attrs, ...children));
+
+  setRender(null);
+
+  if (node instanceof HTMLElement) {
+    node.parentNode.replaceChild(result, node);
+  }
 }
 
 /* -----------------------------------
