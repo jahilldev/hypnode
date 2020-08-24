@@ -53,7 +53,7 @@ let callRender: number = null;
  *
  * -------------------------------- */
 
-const nodeMap: IMap = [];
+const nodeMap: IMap = {};
 
 /* -----------------------------------
  *
