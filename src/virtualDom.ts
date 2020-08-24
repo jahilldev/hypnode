@@ -26,7 +26,7 @@ function filterAttributes(attrs: IAttrs) {
 
 function virtualDom(tag: Tag, attrs: IAttrs, children: any[]): any {
   return {
-    nodeName: tag,
+    tag,
     attrs: filterAttributes(attrs),
     children,
   };
