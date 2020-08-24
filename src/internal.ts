@@ -291,20 +291,20 @@ function html(node: INode | string | number, root?: HTMLElement): HTMLElement | 
  *
  * -------------------------------- */
 
-function render(root: HTMLElement | null, node: INode) {
-  if (!root) {
-    throw new Error('hypnode -> render(): Missing root element');
-  }
-
+function render(node: INode, root?: HTMLElement | null | undefined): HTMLElement | Text {
   const output = html(node, root);
+
+  if (!root) {
+    return output;
+  }
 
   if (!root.firstElementChild) {
     root.appendChild(output);
-
-    return;
+  } else {
+    root.replaceChild(output, root.firstElementChild);
   }
 
-  root.replaceChild(output, root.firstElementChild);
+  return output;
 }
 
 /* -----------------------------------
