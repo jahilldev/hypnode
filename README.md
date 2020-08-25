@@ -224,30 +224,30 @@ import { h, render, useState, State } from  'hypnode';
 /*[...]*/
 
 class MyComponent extends HTMLElement {
-   private state: State<number>;
+  private state: State<number>;
 
-   public connectedCallback() {
-      const Button = () => this.renderButton();
+  public connectedCallback() {
+    const Button = () => this.renderButton();
 
-      this.appendChild(render(<Button  />));
-   }
+    this.appendChild(render(<Button  />));
+  }
 
-   private  renderButton = () => {
-      const [counter] = (this.state =  useState(0));
+  private  renderButton = () => {
+    const [counter] = (this.state =  useState(0));
 
-      return (
-         <div class="my-component">
-            <p>Counter: {counter}</p>
-            <button onClick={this.onClick}>Click Here</button>
-         </div>
-      );
-   }
+    return (
+        <div class="my-component">
+          <p>Counter: {counter}</p>
+          <button onClick={this.onClick}>Click Here</button>
+        </div>
+    );
+  }
 
-   private onClick = (ev: Event) => {
-      const [counter, setState] = this.state;
+  private onClick = (ev: Event) => {
+    const [counter, setState] = this.state;
 
-      setState(counter + 1);
-   }
+    setState(counter + 1);
+  }
 }
 ```
 
