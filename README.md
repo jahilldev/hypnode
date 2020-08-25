@@ -1,6 +1,6 @@
 A super fast and lightweight (roughly **1kb** gzipped) utility function to build HTML node trees and stateful functional components. Can be used either directly via the `h` function, or from transpiled `JSX`.
 
-Due to it's size, `hypnode` is a useful companion utility for writing _WebComponents_, simplifying `HTML` structures, element references and state management. See section entitled "WebComponents" for an example.
+Due to it's size, `hypnode` is a useful companion utility for writing _WebComponents_, simplifying `HTML` structures, element references and state management. See section entitled "WebComponents" for an example, [click to jump there](#webcomponents).
 
 # Getting Started
 

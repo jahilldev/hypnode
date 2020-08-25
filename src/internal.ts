@@ -1,7 +1,6 @@
 import { IAttrs } from './attributes';
 import { html } from './elements';
 import { h } from './index';
-import { Effect } from './useEffect';
 
 /* -----------------------------------
  *
@@ -194,8 +193,6 @@ function update(index: number) {
   setRender(index);
 
   const result = html(h(tag, attrs, ...children));
-
-  setRender(null);
 
   if (node instanceof HTMLElement) {
     node.parentNode.replaceChild(result, node);
