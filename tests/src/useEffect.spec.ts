@@ -36,8 +36,6 @@ function Component() {
  * -------------------------------- */
 
 describe('Core:useEffect', () => {
-  jest.useFakeTimers();
-
   afterEach(() => jest.clearAllMocks());
 
   it('correctly calls and assigns effect', () => {
