@@ -1,16 +1,8 @@
-import {
-  nodeMap,
-  setElement,
-  getIndex,
-  setIndex,
-  getRender,
-  setRender,
-  update,
-} from './internal';
+import { nodeMap, setElement, getIndex, setIndex, getRender, update } from './internal';
 
 /* -----------------------------------
  *
- * IState
+ * Types
  *
  * -------------------------------- */
 

@@ -2,11 +2,19 @@ import { nodeMap, getIndex, getRender } from './internal';
 
 /* -----------------------------------
  *
+ * Types
+ *
+ * -------------------------------- */
+
+type Effect = () => () => void;
+
+/* -----------------------------------
+ *
  * Use
  *
  * -------------------------------- */
 
-function useEffect(callback: any) {
+function useEffect(callback: Effect) {
   const index = getRender() || getIndex();
   const { effect } = nodeMap[index];
 
@@ -23,4 +31,4 @@ function useEffect(callback: any) {
  *
  * -------------------------------- */
 
-export { useEffect };
+export { Effect, useEffect };

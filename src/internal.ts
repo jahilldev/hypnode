@@ -1,6 +1,7 @@
 import { IAttrs } from './attributes';
 import { html } from './elements';
 import { h } from './index';
+import { Effect } from './useEffect';
 
 /* -----------------------------------
  *
@@ -36,7 +37,7 @@ interface IMap {
     attrs: IAttrs;
     node: HTMLElement | Text;
     state: any;
-    effect: any;
+    effect?: () => void;
   };
 }
 
