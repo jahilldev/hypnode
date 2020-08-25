@@ -236,10 +236,10 @@ class MyComponent extends HTMLElement {
     const [counter] = (this.state =  useState(0));
 
     return (
-        <div class="my-component">
-          <p>Counter: {counter}</p>
-          <button onClick={this.onClick}>Click Here</button>
-        </div>
+      <div class="my-component">
+        <p>Counter: {counter}</p>
+        <button onClick={this.onClick}>Click Here</button>
+      </div>
     );
   }
 
