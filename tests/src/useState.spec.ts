@@ -14,7 +14,7 @@ const testValue = 0;
  *
  * -------------------------------- */
 
-import { h, useState } from '../../src/index';
+import { h, render, useState } from '../../src/index';
 
 /* -----------------------------------
  *
@@ -41,8 +41,8 @@ describe('Core:useState', () => {
 
   it('correctly renders component from "useState" function', () => {
     const sample = `<a>${testValue + 1}</a>`;
-    const result = h(Component, { state: testValue });
-    const root = h('div', {}, result);
+    const result = render(h(Component, { state: testValue }));
+    const root = render(h('div', {}));
 
     root.appendChild(result);
 

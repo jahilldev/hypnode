@@ -133,11 +133,11 @@ function setElement(node: HTMLElement | Text, index: number) {
  *
  * -------------------------------- */
 
-function render(node: INode, root?: HTMLElement | null | undefined): HTMLElement | Text {
+function render(node: INode, root?: HTMLElement | null | undefined): HTMLElement {
   const output = html(node, root);
 
   if (!root) {
-    return output;
+    return output as HTMLElement;
   }
 
   if (!root.firstElementChild) {
@@ -146,7 +146,7 @@ function render(node: INode, root?: HTMLElement | null | undefined): HTMLElement
     root.replaceChild(output, root.firstElementChild);
   }
 
-  return output;
+  return output as HTMLElement;
 }
 
 /* -----------------------------------
