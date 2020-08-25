@@ -6,7 +6,7 @@
     "noEmitOnError": true,
     "allowSyntheticDefaultImports": true,
     "noFallthroughCasesInSwitch": true,
-    "target": "es6",
+    "target": "es2017",
     "declaration": true,
     "module": "commonjs",
     "moduleResolution": "node",

@@ -1,12 +1,13 @@
 {
   "name": "hypnode",
-  "version": "1.2.2",
+  "version": "1.3.0",
   "description": "",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "start": "run-p -r \"build --watch\"",
-    "build": "tsc",
+    "build": "tsc && run-s minify",
+    "minify": "terser-folder ./dist -e -x .js -o ./dist",
     "lint": "eslint ./src/**/*.ts",
     "test": "jest ./tests/src"
   },
@@ -39,6 +40,7 @@
     "jest": "^26.4.0",
     "npm-run-all": "^4.1.5",
     "prettier": "^2.0.5",
+    "terser-folder": "^2.0.0",
     "ts-jest": "^26.2.0",
     "typescript": "^3.9.7"
   }

@@ -236,7 +236,7 @@ function Button({ buttonText }) {
 }
 ```
 
-You provide mutations to your state via the `setState` function, this accepts a _new_ value you wish to assign. Whenever this function is called, the component will be re-rendered.
+You provide mutations to your state via the `setState` function, this accepts a _new_ value you wish to assign. Whenever this function is called, the component will be re-rendered with the replaced state value.
 
 ## WebComponents
 
@@ -279,9 +279,9 @@ class MyComponent extends HTMLElement {
 }
 ```
 
-# SSR
+# Server Side Rendering
 
-`hypnode` provides a fallback Virtual `DOM` representation for server side rendering (universal rendering). You can use this output to generate a complete `HTML` representation of your app. This output depends on a `window.document` reference being undefined, if it is, `hypnode` will return a virtual `DOM` object. A prebuilt utility that can convert this into an `HTML` string can be found here: [`hypnode-server`](https://github.com/jhdevuk/hypnode-server)
+`hypnode` provides a Virtual `DOM` representation for server side rendering (universal rendering). You can use this output to generate a complete `HTML` representation of your app. A prebuilt utility that can convert this into an `HTML` string can be found here: [`hypnode-server`](https://github.com/jhdevuk/hypnode-server)
 
 # TypeScript
 
