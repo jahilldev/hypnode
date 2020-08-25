@@ -8,7 +8,7 @@
     "noFallthroughCasesInSwitch": true,
     "target": "es2017",
     "declaration": true,
-    "module": "commonjs",
+    "module": "es2015",
     "moduleResolution": "node",
     "sourceMap": false,
     "inlineSources": false,
