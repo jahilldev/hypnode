@@ -47,8 +47,6 @@ function useState<T>(initial: T): State<T> {
     state = nodeMap[index].state;
   }
 
-  setRender(null);
-
   return [state, setValue(index)];
 }
 

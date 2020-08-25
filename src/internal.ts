@@ -36,6 +36,7 @@ interface IMap {
     attrs: IAttrs;
     node: HTMLElement | Text;
     state: any;
+    effect: any;
   };
 }
 
@@ -110,6 +111,7 @@ function setIndex(tag: Tag, attrs: IAttrs) {
     attrs,
     node: null,
     state: null,
+    effect: null,
   };
 
   return index;
@@ -159,9 +161,13 @@ function resolve() {
   const nodeKeys = Object.keys(nodeMap).map((key) => parseInt(key, 10));
 
   nodeKeys.forEach((key) => {
-    const { node } = nodeMap[key];
+    const { node, effect } = nodeMap[key];
 
     if (!document.body.contains(node)) {
+      if (effect) {
+        effect();
+      }
+
       delete nodeMap[key];
     }
   });

@@ -1,5 +1,5 @@
 import { IAttrs } from './attributes';
-import { Node, setIndex, setElement } from './internal';
+import { Node, setIndex, setElement, setRender } from './internal';
 
 /* -----------------------------------
  *
@@ -145,8 +145,11 @@ function html(node: Node, root?: HTMLElement): HTMLElement | Text {
   if (tag instanceof Function) {
     const props = { ...attrs, children };
     const index = setIndex(tag, props);
+    const mount = tag(props);
 
-    return setElement(html(tag(props), root), index);
+    setRender(null);
+
+    return setElement(html(mount, root), index);
   }
 
   const element = document.createElement(tag);

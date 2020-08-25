@@ -6,7 +6,7 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "start": "run-p -r \"build --watch\"",
-    "build": "tsc && run-s minify",
+    "build": "tsc",
     "minify": "terser-folder ./dist -e -x .js -o ./dist",
     "lint": "eslint ./src/**/*.ts",
     "test": "jest ./tests/src"
