@@ -35,4 +35,4 @@ function h(tag: Tag, attrs?: IAttrs, ...nested: any[]): INode {
  *
  * -------------------------------- */
 
-export { State, INode, h, render, useState, useEffect };
+export { Tag, State, INode, h, render, useState, useEffect };
