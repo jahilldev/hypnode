@@ -8,6 +8,7 @@
     "start": "run-p -r \"build --watch\"",
     "build": "tsc",
     "minify": "terser-folder ./dist -e -x .js -o ./dist",
+    "release": "run-s build minify",
     "lint": "eslint ./src/**/*.ts",
     "test": "jest ./tests/src"
   },
